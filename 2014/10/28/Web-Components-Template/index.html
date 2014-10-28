@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Web Components Template | about前端</title>
+  <meta name="author" content="yu">
+  
+  <meta name="description" content="本文翻译自http://webcomponents.org/articles/introduction-to-template-element/?utm_source=html5weekly&amp;amp;utm_medium=email
+
+介绍template元素
+template元素可以让我们的工作任务分配得更加独立。csser可以更集中在html和css，其他的前端工程师则更集中在逻辑和跟后台的整合上。在这篇文章里，你将可以学到怎样使用这个已经可以兼容chrome, firefox和safari的html5元素。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="Web Components Template"/>
+  <meta property="og:site_name" content="about前端"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="about前端" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">about前端</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/archives">所有文章</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-10-28T01:43:43.000Z"><a href="/2014/10/28/Web-Components-Template/">Oct 28 2014</a></time>
+      
+      
+  
+    <h1 class="title">Web Components Template</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <blockquote>
+<p>本文翻译自<a href="http://webcomponents.org/articles/introduction-to-template-element/?utm_source=html5weekly&amp;utm_medium=email" target="_blank" rel="external">http://webcomponents.org/articles/introduction-to-template-element/?utm_source=html5weekly&amp;utm_medium=email</a></p>
+</blockquote>
+<h3 id="介绍template元素">介绍template元素</h3>
+<p>template元素可以让我们的工作任务分配得更加独立。csser可以更集中在html和css，其他的前端工程师则更集中在逻辑和跟后台的整合上。<br>在这篇文章里，你将可以学到怎样使用这个已经可以兼容chrome, firefox和safari的html5元素。</p>
+<a id="more"></a>
+
+<h3 id="为什么要使用template元素？">为什么要使用template元素？</h3>
+<p>以前我们一般在后端使用<em>模版</em>引擎，如PHP,Python, ruby on rails等。不过现在越来越流行在使用<em>前端模版引擎</em>了。<br>现在的架构方式已经变为由后端处理数据将数据传到前端（如使用json），再由前端去渲染数据。MVC已经不再只是后端的设计模式。<code>angularJS</code>, <code>backbone.js</code>,<code>ember.js</code> 等等都是MVC模式的前端框架。<br>现在的<em>前端模板引擎</em>一般使用javascript, 如<code>mustache.js</code>, <code>handlebars.js</code>, <code>angularjs</code>, <code>backbone.js</code>…但使用它们其实有一点弊端。</p>
+<h3 id="使用div标签：">使用div标签：</h3>
+<p>下面例子的模版实际上是一个隐藏的div层。这种方法的坏处是浏览器会抓去模版中的资源，即使该资源还没被使用。如下面的logo.svg.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"display:none;"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>Web Components<span class="tag">&lt;/<span class="title">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"http://webcomponents.org/img/logo.svg"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div></pre></td></tr></table></figure>
+
+<h3 id="使用script标签：">使用script标签：</h3>
+<p>下面例子里模版的内容被存在script便签里。使用这种方法的坏处是模版内容会使用.innerHTML转换成DOM元素。而innerHTML会有安全隐患。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="variable">&lt;script type="text/template"&gt;</span></div><div class="line">  <span class="variable">&lt;div&gt;</span></div><div class="line">    <span class="variable">&lt;h1&gt;</span>Web Components<span class="variable">&lt;/h1&gt;</span></div><div class="line">    <span class="variable">&lt;img src="http://webcomponents.org/img/logo.svg"&gt;</span></div><div class="line">  <span class="variable">&lt;/div&gt;</span></div><div class="line"><span class="variable">&lt;/script&gt;</span></div></pre></td></tr></table></figure>
+
+<h3 id="使用">使用<template></template></h3>
+<p>使用<template>有什么好处：</template></p>
+<ul>
+<li>内嵌的js不会执行，直到template被激活</li>
+<li>像img或者video等静态资源不会被抓取，直到template被激活</li>
+</ul>
+<h3 id="怎样使用">怎样使用<template></template></h3>
+<p>要定义一个template只需简单地用template元素把模版内容包起来。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">template</span> id=<span class="string">"template"</span>&gt;</div><div class="line">    &lt;style&gt;</div><div class="line">    ...</div><div class="line">    &lt;/style&gt;</div><div class="line">    &lt;<span class="keyword">div</span>&gt;</div><div class="line">        &lt;h1&gt;<span class="type">Web</span> <span class="type">Components</span>&lt;/h1&gt;</div><div class="line">        &lt;img src=<span class="string">"http://webcomponents.org/img/logo.svg"</span>&gt;</div><div class="line">    &lt;/<span class="keyword">div</span>&gt;</div><div class="line">&lt;/<span class="keyword">template</span>&gt;</div></pre></td></tr></table></figure>
+
+<p>要激活模版，你需要写一点js</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line"><span class="keyword">var</span> <span class="keyword">template</span> = document.querySelector('<span class="comment">#template');</span></div><div class="line"><span class="keyword">var</span> clone = document.importNode(<span class="keyword">template</span>.content, <span class="literal">true</span>);</div><div class="line"><span class="keyword">var</span> host = document.querySelector('<span class="comment">#host');</span></div><div class="line">host.appendChild(clone);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+
+<p><a href="http://jsbin.com/qaxiw/7/edit?html,css,js,output" target="_blank" rel="external">点击这样预览效果</a></p>
+<p>importNode(template.content, true)会深复制template里面的内容. 将它append到其它节点后，这个template就被激活了.<br>激活template后：</p>
+<ul>
+<li>script标签会被执行</li>
+<li>静态资源（img, video, 等）会被浏览器抓取</li>
+<li>style里的样式将会生效</li>
+</ul>
+<h3 id="Supported_browsers">Supported browsers</h3>
+<p>The template element is supported by Chrome, Opera, Safari and Firefox as of October 2014. To check availability, go to chromestatus.com. For polyfilling Internet Explorer and other legacy browsers, you can use platform.js.</p>
+<p>相关阅读：<a href="http://www.html-js.com/article/Regularjs-Chinese-guidelines-for-a-comprehensive-summary-of-the-front-template-technology" target="_blank" rel="external">一个对前端模板技术的全面总结</a><br><a href="http://www.html5rocks.com/zh/tutorials/webcomponents/template/" target="_blank" rel="external">HTML’s New Template Tag</a> (翻墙plz)</p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/html5/">html5</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/template/">template</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+<!-- 多说评论框 start -->
+  <div class="ds-thread"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"frontend-fucker"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:weiyuxing.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/grunt/">grunt</a><small>2</small></li>
+  
+    <li><a href="/categories/html5/">html5</a><small>1</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>5</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/array/">array</a><small>1</small></li>
+  
+    <li><a href="/tags/grunt配置/">grunt配置</a><small>2</small></li>
+  
+    <li><a href="/tags/jquery常用插件/">jquery常用插件</a><small>1</small></li>
+  
+    <li><a href="/tags/js常用片段/">js常用片段</a><small>1</small></li>
+  
+    <li><a href="/tags/js常见代码片段/">js常见代码片段</a><small>2</small></li>
+  
+    <li><a href="/tags/template/">template</a><small>1</small></li>
+  
+    <li><a href="/tags/tips/">tips</a><small>1</small></li>
+  
+    <li><a href="/tags/异步/">异步</a><small>1</small></li>
+  
+    <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2014/10/28/Web-Components-Template/">Web Components Template</a>
+      </li>
+    
+      <li>
+        <a href="/2014/10/22/useful-javascript-tips,-tricks-and-best-practices/">useful javascript tips, tricks and best practices</a>
+      </li>
+    
+      <li>
+        <a href="/2014/10/15/如何并发异步获取数据/">如何并发异步获取数据</a>
+      </li>
+    
+      <li>
+        <a href="/2014/10/08/3个你应该开始使用的新array方法/">5个你应该开始使用的新array方法</a>
+      </li>
+    
+      <li>
+        <a href="/2014/09/03/如何判断某个元素是否可见？/">如何判断某个元素是否可见？</a>
+      </li>
+    
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2014 yu
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
