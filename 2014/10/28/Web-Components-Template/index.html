@@ -65,27 +65,27 @@ template元素可以让我们的工作任务分配得更加独立。csser可以�
         <blockquote>
 <p>本文翻译自<a href="http://webcomponents.org/articles/introduction-to-template-element/?utm_source=html5weekly&amp;utm_medium=email" target="_blank" rel="external">http://webcomponents.org/articles/introduction-to-template-element/?utm_source=html5weekly&amp;utm_medium=email</a></p>
 </blockquote>
-<h3 id="介绍template元素">介绍template元素</h3>
+<h2 id="介绍template元素">介绍template元素</h2>
 <p>template元素可以让我们的工作任务分配得更加独立。csser可以更集中在html和css，其他的前端工程师则更集中在逻辑和跟后台的整合上。<br>在这篇文章里，你将可以学到怎样使用这个已经可以兼容chrome, firefox和safari的html5元素。</p>
 <a id="more"></a>
 
-<h3 id="为什么要使用template元素？">为什么要使用template元素？</h3>
+<h2 id="为什么要使用template元素？">为什么要使用template元素？</h2>
 <p>以前我们一般在后端使用<em>模版</em>引擎，如PHP,Python, ruby on rails等。不过现在越来越流行在使用<em>前端模版引擎</em>了。<br>现在的架构方式已经变为由后端处理数据将数据传到前端（如使用json），再由前端去渲染数据。MVC已经不再只是后端的设计模式。<code>angularJS</code>, <code>backbone.js</code>,<code>ember.js</code> 等等都是MVC模式的前端框架。<br>现在的<em>前端模板引擎</em>一般使用javascript, 如<code>mustache.js</code>, <code>handlebars.js</code>, <code>angularjs</code>, <code>backbone.js</code>…但使用它们其实有一点弊端。</p>
-<h3 id="使用div标签：">使用div标签：</h3>
+<h2 id="使用div标签：">使用div标签：</h2>
 <p>下面例子的模版实际上是一个隐藏的div层。这种方法的坏处是浏览器会抓去模版中的资源，即使该资源还没被使用。如下面的logo.svg.</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"display:none;"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>Web Components<span class="tag">&lt;/<span class="title">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"http://webcomponents.org/img/logo.svg"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div></pre></td></tr></table></figure>
 
-<h3 id="使用script标签：">使用script标签：</h3>
+<h2 id="使用script标签：">使用script标签：</h2>
 <p>下面例子里模版的内容被存在script便签里。使用这种方法的坏处是模版内容会使用.innerHTML转换成DOM元素。而innerHTML会有安全隐患。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="variable">&lt;script type="text/template"&gt;</span></div><div class="line">  <span class="variable">&lt;div&gt;</span></div><div class="line">    <span class="variable">&lt;h1&gt;</span>Web Components<span class="variable">&lt;/h1&gt;</span></div><div class="line">    <span class="variable">&lt;img src="http://webcomponents.org/img/logo.svg"&gt;</span></div><div class="line">  <span class="variable">&lt;/div&gt;</span></div><div class="line"><span class="variable">&lt;/script&gt;</span></div></pre></td></tr></table></figure>
 
-<h3 id="使用">使用<template></template></h3>
+<h2 id="使用&lt;template&gt;">使用<code>&lt;template&gt;</code></h2>
 <p>使用<template>有什么好处：</template></p>
 <ul>
 <li>内嵌的js不会执行，直到template被激活</li>
 <li>像img或者video等静态资源不会被抓取，直到template被激活</li>
 </ul>
-<h3 id="怎样使用">怎样使用<template></template></h3>
+<h2 id="怎样使用&lt;template&gt;">怎样使用<code>&lt;template&gt;</code></h2>
 <p>要定义一个template只需简单地用template元素把模版内容包起来。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;<span class="keyword">template</span> id=<span class="string">"template"</span>&gt;</div><div class="line">    &lt;style&gt;</div><div class="line">    ...</div><div class="line">    &lt;/style&gt;</div><div class="line">    &lt;<span class="keyword">div</span>&gt;</div><div class="line">        &lt;h1&gt;<span class="type">Web</span> <span class="type">Components</span>&lt;/h1&gt;</div><div class="line">        &lt;img src=<span class="string">"http://webcomponents.org/img/logo.svg"</span>&gt;</div><div class="line">    &lt;/<span class="keyword">div</span>&gt;</div><div class="line">&lt;/<span class="keyword">template</span>&gt;</div></pre></td></tr></table></figure>
 
@@ -99,9 +99,13 @@ template元素可以让我们的工作任务分配得更加独立。csser可以�
 <li>静态资源（img, video, 等）会被浏览器抓取</li>
 <li>style里的样式将会生效</li>
 </ul>
-<h3 id="Supported_browsers">Supported browsers</h3>
+<h2 id="Supported_browsers">Supported browsers</h2>
 <p>The template element is supported by Chrome, Opera, Safari and Firefox as of October 2014. To check availability, go to chromestatus.com. For polyfilling Internet Explorer and other legacy browsers, you can use platform.js.</p>
-<p>相关阅读：<a href="http://www.html-js.com/article/Regularjs-Chinese-guidelines-for-a-comprehensive-summary-of-the-front-template-technology" target="_blank" rel="external">一个对前端模板技术的全面总结</a><br><a href="http://www.html5rocks.com/zh/tutorials/webcomponents/template/" target="_blank" rel="external">HTML’s New Template Tag</a> (翻墙plz)</p>
+<p>相关阅读：</p>
+<ul>
+<li><a href="http://www.html-js.com/article/Regularjs-Chinese-guidelines-for-a-comprehensive-summary-of-the-front-template-technology" target="_blank" rel="external">一个对前端模板技术的全面总结</a></li>
+<li><a href="http://www.html5rocks.com/zh/tutorials/webcomponents/template/" target="_blank" rel="external">HTML’s New Template Tag</a> (翻墙plz)</li>
+</ul>
 
       
     </div>
