@@ -70,17 +70,27 @@ template元素可以让我们的工作任务分配得更加独立。csser可以�
 <a id="more"></a>
 
 <h2 id="为什么要使用template元素？">为什么要使用template元素？</h2>
-<p>以前我们一般在后端使用<strong>模版</strong>引擎，如PHP,Python, ruby on rails等。不过现在越来越流行在使用<strong>前端模版引擎</strong>了。<br>现在的架构方式已经变为由后端处理数据将数据传到前端（如使用json），再由前端去渲染数据。MVC已经不再只是后端的设计模式。<code>angularJS</code>, <code>backbone.js</code>,<code>ember.js</code> 等等都是MVC模式的前端框架。<br>现在的<strong>前端模板引擎</strong>一般使用javascript, 如<code>mustache.js</code>, <code>handlebars.js</code>, <code>angularjs</code>, <code>backbone.js</code>…但使用它们其实有一点弊端。</p>
+<p>在 web 开发领域中，模板这个概念并不新鲜。实际上，服务端的 模板语言/引擎，比如 Django (Python)，ERB/Haml (Ruby)，和 Smarty (PHP) 早已应用多时。不过现在越来越流行在使用<strong>前端模版引擎</strong>了。<br>现在的架构方式已经变为由后端处理数据将数据传到前端（如使用json），再由前端去渲染数据。MVC已经不再只是后端的设计模式。<code>angularJS</code>, <code>backbone.js</code>,<code>ember.js</code> 等等都是MVC模式的前端框架。<br>现在的<strong>前端模板引擎</strong>一般使用javascript, 如<code>mustache.js</code>, <code>handlebars.js</code>, <code>angularjs</code>, <code>backbone.js</code>…但使用它们其实有一点弊端。</p>
 <h2 id="使用div标签：">使用div标签：</h2>
 <p>下面例子的模版实际上是一个隐藏的div层。这种方法的坏处是浏览器会抓去模版中的资源，即使该资源还没被使用。如下面的logo.svg.</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="title">div</span> <span class="attribute">style</span>=<span class="value">"display:none;"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">h1</span>&gt;</span>Web Components<span class="tag">&lt;/<span class="title">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">img</span> <span class="attribute">src</span>=<span class="value">"http://webcomponents.org/img/logo.svg"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">div</span>&gt;</span></div></pre></td></tr></table></figure>
 
+<ul>
+<li>:) 没有内容渲染——增加 hidden 来阻止区块的显示。</li>
+<li>:( 非惰性——即便内容是隐藏的，当仍然会发起图片请求。</li>
+<li>:( 难以设置样式和主题——嵌入页面需要为所有 CSS 规则增加 #mytemplate 前缀，以此来将样式限定在模板范围内。这种做法十分脆弱，并且无法确保未来可能出现的命名冲突。比如说，要是嵌入页面早就拥有一个 id 为 mytemplate 的元素，我们可就麻烦了。</li>
+</ul>
 <h2 id="使用script标签：">使用script标签：</h2>
-<p>下面例子里模版的内容被存在script便签里。使用这种方法的坏处是模版内容会使用.innerHTML转换成DOM元素。而innerHTML会有安全隐患。</p>
+<p>下面例子里模版的内容被存在script便签里将它的内容作为字符串来操作。使用这种方法的坏处是模版内容会使用.innerHTML转换成DOM元素。而innerHTML会有安全隐患。对户提供的数据进行运行时字符串解析很容易导致 XSS 漏洞。</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="variable">&lt;script type="text/template"&gt;</span></div><div class="line">  <span class="variable">&lt;div&gt;</span></div><div class="line">    <span class="variable">&lt;h1&gt;</span>Web Components<span class="variable">&lt;/h1&gt;</span></div><div class="line">    <span class="variable">&lt;img src="http://webcomponents.org/img/logo.svg"&gt;</span></div><div class="line">  <span class="variable">&lt;/div&gt;</span></div><div class="line"><span class="variable">&lt;/script&gt;</span></div></pre></td></tr></table></figure>
 
+<ul>
+<li>:) 没有内容渲染——浏览器不会渲染该块，因为 <script> 默认为 display:none。</li>
+<li>:) 惰性——若脚本的类型不为 “text/javascript”，那么浏览器就不会将它的内容当作 JS 来解析。</li>
+<li>:( 安全问题——鼓励使用innerHTML。对户提供的数据进行运行时字符串解析很容易导致 XSS 漏洞。</li>
+</ul>
 <h2 id="使用&lt;template&gt;">使用<code>&lt;template&gt;</code></h2>
-<p>使用<template>有什么好处：</template></p>
+<p>使用<template>有什么好处：</p>
 <ul>
 <li>内嵌的js不会执行，直到template被激活</li>
 <li>像img或者video等静态资源不会被抓取，直到template被激活</li>
@@ -92,21 +102,25 @@ template元素可以让我们的工作任务分配得更加独立。csser可以�
 <p>要激活模版，你需要写一点js</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line"><span class="keyword">var</span> <span class="keyword">template</span> = document.querySelector('<span class="comment">#template');</span></div><div class="line"><span class="keyword">var</span> clone = document.importNode(<span class="keyword">template</span>.content, <span class="literal">true</span>);</div><div class="line"><span class="keyword">var</span> host = document.querySelector('<span class="comment">#host');</span></div><div class="line">host.appendChild(clone);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
 
-<p><a href="http://jsbin.com/qaxiw/7/edit?html,css,js,output" target="_blank" rel="external">点击这样预览效果</a></p>
+<p><a href="http://jsbin.com/qaxiw/7/edit?html,css,js,output">点击这样预览效果</a></p>
 <p>importNode(template.content, true)会深复制template里面的内容. 将它append到其它节点后，这个template就被激活了.<br>激活template后：</p>
 <ul>
 <li>script标签会被执行</li>
 <li>静态资源（img, video, 等）会被浏览器抓取</li>
 <li>style里的样式将会生效</li>
 </ul>
+<h2 id="特性检测">特性检测</h2>
+<p>欲特性检测 <template>，需要创建一个 DOM 元素并检查它是否拥有 .content 属性：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function supportsTemplate() {</div><div class="line">  <span class="keyword">return</span> 'content' <span class="keyword">in</span> document.createElement('<span class="keyword">template</span>');</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">if</span> (supportsTemplate()) {</div><div class="line">  // 检测通过！</div><div class="line">} <span class="keyword">else</span> {</div><div class="line">  // 使用旧的模板技术或库。</div><div class="line">}</div></pre></td></tr></table></figure>
+
 <h2 id="Supported_browsers">Supported browsers</h2>
 <p>The template element is supported by Chrome, Opera, Safari and Firefox as of October 2014. To check availability, go to chromestatus.com. For polyfilling Internet Explorer and other legacy browsers, you can use platform.js.</p>
 <p>相关阅读：</p>
 <ul>
-<li><a href="http://www.html-js.com/article/Regularjs-Chinese-guidelines-for-a-comprehensive-summary-of-the-front-template-technology" target="_blank" rel="external">一个对前端模板技术的全面总结</a></li>
-<li><a href="http://www.html5rocks.com/zh/tutorials/webcomponents/template/" target="_blank" rel="external">HTML’s New Template Tag</a> (翻墙plz)</li>
+<li><a href="http://www.html-js.com/article/Regularjs-Chinese-guidelines-for-a-comprehensive-summary-of-the-front-template-technology">一个对前端模板技术的全面总结</a></li>
+<li><a href="http://www.html5rocks.com/zh/tutorials/webcomponents/template/">HTML’s New Template Tag</a> (翻墙plz)</li>
 </ul>
-
+</script></li></ul>
       
     </div>
     <footer>
