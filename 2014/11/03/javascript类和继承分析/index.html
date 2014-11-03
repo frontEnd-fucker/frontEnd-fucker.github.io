@@ -1,0 +1,243 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>javascript类和继承分析 | about前端</title>
+  <meta name="author" content="yu">
+  
+  <meta name="description" content="SPA的增长让javascript架构更加重要。你需要确保你的代码可维护，和避免面条式的代码。很长一段时间以来，一个充满jQuery选择器和事件处理函数的js文件感觉就够用了。但这不是可持续的模式。23世纪的js需要使用更有架构的方法。">
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <meta property="og:title" content="javascript类和继承分析"/>
+  <meta property="og:site_name" content="about前端"/>
+
+  
+    <meta property="og:image" content="undefined"/>
+  
+
+  <link href="/favicon.png" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="about前端" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  
+</head>
+
+
+<body>
+  <header id="header" class="inner"><div class="alignleft">
+  <h1><a href="/">about前端</a></h1>
+  <h2><a href="/"></a></h2>
+</div>
+<nav id="main-nav" class="alignright">
+  <ul>
+    
+      <li><a href="/">首页</a></li>
+    
+      <li><a href="/archives">所有文章</a></li>
+    
+  </ul>
+  <div class="clearfix"></div>
+</nav>
+<div class="clearfix"></div></header>
+  <div id="content" class="inner">
+    <div id="main-col" class="alignleft"><div id="wrapper"><article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-11-03T03:41:56.000Z"><a href="/2014/11/03/javascript类和继承分析/">Nov 3 2014</a></time>
+      
+      
+  
+    <h1 class="title">javascript类和继承分析</h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>SPA的增长让javascript架构更加重要。你需要确保你的代码可维护，和避免面条式的代码。<br>很长一段时间以来，一个充满jQuery选择器和事件处理函数的js文件感觉就够用了。但这不是可持续的模式。23世纪的js需要使用更有架构的方法。</p>
+<a id="more"></a>
+
+<h2 id="构造函数">构造函数</h2>
+<p>我们先回到我们使用了若干年的原始方式—构造函数模式。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Starship</span><span class="params">()</span> </span>{};</div></pre></td></tr></table></figure>
+
+<p>构造函数可以让我们创造出实例，这是一种我们可以重复使用代码的方式。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> enterprise = <span class="keyword">new</span> Starship();</div><div class="line"><span class="keyword">var</span> IKSBuruk = <span class="keyword">new</span> Starship();</div></pre></td></tr></table></figure>
+
+<p>你可以给构造函数添加参数然后将参数赋值给<code>this</code>让我们可以更好地描述和定制实例。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Starship</span><span class="params">(owner, operator, type)</span> </span>{</div><div class="line">    <span class="keyword">this</span>.owner = owner;</div><div class="line">    <span class="keyword">this</span>.operator = operator;</div><div class="line">    <span class="keyword">this</span>.type = type;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keyword">var</span> enterprise = <span class="keyword">new</span> Starship(<span class="string">'Federation'</span>, <span class="string">'Star Fleet'</span>, <span class="string">'Class 1 Heavy Cruiser'</span>);</div><div class="line"><span class="keyword">var</span> birdOfprey = <span class="keyword">new</span> Starship(<span class="string">'Klingon Empire'</span>, <span class="string">'Klingon Imperial Fleet'</span>, <span class="string">'Klingon Warship'</span>)</div></pre></td></tr></table></figure>
+
+<h2 id="prototype">prototype</h2>
+<p>你也可以使用prototype。你可以在它上面定义属性和方法，这些属性和方法将会添加到每一个实例当中。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Starship</span><span class="params">(owner, operator, type, weapons)</span> </span>{</div><div class="line">    <span class="comment">/* ... */</span></div><div class="line">    <span class="keyword">this</span>.weapons = weapons;</div><div class="line">};</div><div class="line"></div><div class="line">Starship.prototype.fire = <span class="function"><span class="keyword">function</span><span class="params">(weapon)</span> </span>{</div><div class="line">    <span class="keyword">this</span>.weapons[weapon].launch();</div><div class="line">};</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">PhotonTorpedoSystem</span><span class="params">()</span> </span>{</div><div class="line">    PhotonTorpedoSystem.prototype.launch = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'launching torpedos'</span>);</div><div class="line">    };</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keyword">var</span> torpedos = <span class="keyword">new</span> PhotonTorpedoSystem();</div><div class="line"></div><div class="line"><span class="keyword">var</span> weaponSystem = {</div><div class="line">    torpedos: torpedos;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keyword">var</span> enterprise = <span class="keyword">new</span> Starship(</div><div class="line">    <span class="string">'Federation'</span>, </div><div class="line">    <span class="string">'Star Fleet'</span>,</div><div class="line">    <span class="string">'Class 1 Heavy Cruiser'</span>,</div><div class="line">    weaponSystem</div><div class="line">);</div><div class="line"></div><div class="line">enterprise.fire(<span class="string">'torpedos'</span>); <span class="comment">// launching torpedos</span></div></pre></td></tr></table></figure>
+
+<h2 id="继承">继承</h2>
+<p>使用prototype可以让你个类继承自另一个类。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">ConstitutionClass</span><span class="params">(caption, firstOfficer, missionDuration)</span> </span>{</div><div class="line">    <span class="keyword">this</span>.caption = caption;</div><div class="line">    <span class="keyword">this</span>.firstOfficer = firstOfficer;</div><div class="line">    <span class="keyword">this</span>.missionDuration = missionDuration;</div><div class="line"></div><div class="line">    Starship.apple(<span class="keyword">this</span>, [<span class="string">'Federation'</span>, <span class="string">'Star Fleet'</span>, <span class="string">'Class 1 Heavy Cruiser'</span>, weaponSystem]);</div><div class="line">};</div><div class="line"></div><div class="line">ConstitutionClass.prototype = <span class="built_in">Object</span>.create(StarShip.prototype);</div><div class="line">ConstitutionClass.prototype.constructor = ConstitutionClass;</div><div class="line"></div><div class="line">ConstitutionClass.prototype.warp = <span class="function"><span class="keyword">function</span><span class="params">(speed)</span> </span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'warping at: '</span> + speed);</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keyword">var</span> enterprise = <span class="keyword">new</span> ConstitutionClass(<span class="string">'Kirk'</span>, <span class="string">'Spock'</span>, <span class="number">5</span>);</div><div class="line">enterprise.fire(<span class="string">'torpedos'</span>); <span class="comment">// Launching Torpedos</span></div><div class="line">enterprise.warp(<span class="number">14.1</span>); <span class="comment">// warping at: 14.1</span></div></pre></td></tr></table></figure>
+
+<p>这里我们创建了一个ConstitutionClass类。这个类的构造函数有captain, firstOfficer和missionDuration作为参数。</p>
+<p>然后我们调用了Starship.apply，确保父类构建函数被调用。即每次用ConstitutionClass创造一个实例的时候都会同时创造了一个Starship实例。且因为是在this上调用的Starship(), Starship的属性’Federation’, ‘Star Fleet’等都会赋给ConstitutionClass实例。</p>
+<p>要告诉ConstitutionClass去继承Starship，我们只需简单地将StarShip.prototype赋值给ConstitutionClass的prototype.这样我们就将StarShip prototype的所有属性和方法加到了ConstitutionClass prototype上。</p>
+<p>Check out how this looks when you run it and open up the console…<br>!()[<a href="http://frontend-fucker.qiniudn.com/hexo/console.png" target="_blank" rel="external">http://frontend-fucker.qiniudn.com/hexo/console.png</a>]</p>
+<ul>
+<li>从上图你可以看出enterprise实例拥有了自己的属性，同时也拥有的Starship的属性。</li>
+<li>ConstitutionClass拥有了warp方法同时也拥有了继承仔Starship的fire方法。</li>
+<li>ConstitutionClass的<strong>proto</strong>是Starship</li>
+</ul>
+<p>reference: <a href="http://modernweb.com/2014/10/15/javascript-architecture-23rd-century/?utm_source=javascriptweekly&amp;utm_medium=email" target="_blank" rel="external">http://modernweb.com/2014/10/15/javascript-architecture-23rd-century/?utm_source=javascriptweekly&amp;utm_medium=email</a></p>
+
+      
+    </div>
+    <footer>
+      
+        
+  
+  <div class="categories">
+    <a href="/categories/javascript/">javascript</a>
+  </div>
+
+        
+  
+  <div class="tags">
+    <a href="/tags/js面向对象/">js面向对象</a>
+  </div>
+
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+<section id="comment">
+<!-- 多说评论框 start -->
+  <div class="ds-thread"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"frontend-fucker"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+</div></div>
+    <aside id="sidebar" class="alignright">
+  <div class="search">
+  <form action="//google.com/search" method="get" accept-charset="utf-8">
+    <input type="search" name="q" results="0" placeholder="Search">
+    <input type="hidden" name="q" value="site:weiyuxing.com">
+  </form>
+</div>
+
+  
+<div class="widget tag">
+  <h3 class="title">分类</h3>
+  <ul class="entry">
+  
+    <li><a href="/categories/grunt/">grunt</a><small>2</small></li>
+  
+    <li><a href="/categories/html5/">html5</a><small>1</small></li>
+  
+    <li><a href="/categories/javascript/">javascript</a><small>6</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">标签</h3>
+  <ul class="entry">
+  
+    <li><a href="/tags/array/">array</a><small>1</small></li>
+  
+    <li><a href="/tags/grunt配置/">grunt配置</a><small>2</small></li>
+  
+    <li><a href="/tags/jquery常用插件/">jquery常用插件</a><small>1</small></li>
+  
+    <li><a href="/tags/js常用片段/">js常用片段</a><small>1</small></li>
+  
+    <li><a href="/tags/js常见代码片段/">js常见代码片段</a><small>1</small></li>
+  
+    <li><a href="/tags/js面向对象/">js面向对象</a><small>1</small></li>
+  
+    <li><a href="/tags/template/">template</a><small>1</small></li>
+  
+    <li><a href="/tags/tips/">tips</a><small>1</small></li>
+  
+    <li><a href="/tags/异步/">异步</a><small>1</small></li>
+  
+    <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
+  
+  </ul>
+</div>
+
+
+  
+<div class="widget tag">
+  <h3 class="title">Recent Posts</h3>
+  <ul class="entry">
+    
+      <li>
+        <a href="/2014/11/03/javascript类和继承分析/">javascript类和继承分析</a>
+      </li>
+    
+      <li>
+        <a href="/2014/10/28/Web-Components-Template/">Web Components Template</a>
+      </li>
+    
+      <li>
+        <a href="/2014/10/22/useful-javascript-tips,-tricks-and-best-practices/">useful javascript tips, tricks and best practices</a>
+      </li>
+    
+      <li>
+        <a href="/2014/10/15/如何并发异步获取数据/">如何并发异步获取数据</a>
+      </li>
+    
+      <li>
+        <a href="/2014/10/08/3个你应该开始使用的新array方法/">5个你应该开始使用的新array方法</a>
+      </li>
+    
+  </ul>
+</div>
+
+</aside>
+    <div class="clearfix"></div>
+  </div>
+  <footer id="footer" class="inner"><div class="alignleft">
+  
+  &copy; 2014 yu
+  
+</div>
+<div class="clearfix"></div></footer>
+  <script src="//libs.baidu.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+(function($){
+  $('.fancybox').fancybox();
+})(jQuery);
+</script>
+
+</body>
+</html>
