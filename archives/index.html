@@ -52,6 +52,91 @@
     <header>
       
         <div class="icon"></div>
+        <time datetime="2014-12-09T03:58:36.000Z"><a href="/2014/12/09/difference-between-success()--and-complete()/">Dec 9 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/12/09/difference-between-success()--and-complete()/">difference between .success()  and .complete()</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p><code>.success()</code> only gets called if your webserver responds with a <code>200 OK</code> HTTP header - basically when everything is fine.</p>
+<p>However, <code>.complete()</code> will always get called no matter if the ajax call was successful or not - maybe it outputted errors and returned an error - .complete() will still get called.</p>
+<p>It’s worth mentioning that <code>.complete()</code> will get called after <code>.success()</code>gets called - if it matters to you.</p>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
+        <time datetime="2014-12-08T09:48:18.000Z"><a href="/2014/12/08/初步认识Service-Worker/">Dec 8 2014</a></time>
+      
+      
+  
+    <h1 class="title"><a href="/2014/12/08/初步认识Service-Worker/">初步认识Service Worker</a></h1>
+  
+
+    </header>
+    <div class="entry">
+      
+        <p>Rich offline experiences, periodic background syncs, push notifications— functionality that would normally require a native application—are coming to the web. Service workers provide the technical foundation that all these features will rely on.<br>丰富的线下体验，周期性的后台同步，通知推送（native app的常用功能）即将可以在web上实现了。Service Worker提供了这些功能所需的所有技术基础。</p>
+<p>What is a Service Worker?</p>
+<p>A service worker is a script that is run by your browser in the background, separate from a web page, opening the door to features which don’t need a web page or user interaction. In the future this will include push messages, background sync, and geofencing, but the first feature it will launch with is the ability to intercept and handle network requests, including programmatically managing a cache of responses.</p>
+<h2 id="什么是Service_Worker?">什么是Service Worker?</h2>
+<p>service worker是一个运行在浏览器后台的脚本，它和页面分离，它开创了通往不需要页面和UI的道路。<br>service worker包括信息推送，后台更新和地理围栏，但是它第一个会上线的功能是拦截和处理网络请求，包括管理responses。</p>
+<p>The reason this is such an exciting API is that it allows you to support offline experiences, giving developers complete control over what exactly that experience is.<br>这个API让人感到兴奋的主要原因是它允许你支持离线体验，让开发者可以完全控制这个体验。</p>
+<p>Before service worker there was one other API that would give users an offline experience on the web called App Cache. The major issue with App Cache is the number of gotcha’s that exist as well as the design working particularly well for single page web apps, but not for multi-page sites. Service workers have been designed to avoid these common pain points.<br>在service worker之前，还存在着一个API可以给用户在web上有离线体验，它就是<strong>App Cache</strong>。App Cache最大的问题是它不适合在多页面网站上使用。Service worder就是设计来避免这个问题的。</p>
+<p>Things to note about a service worker:</p>
+<ul>
+<li>It’s a JavaScript Worker, so it can’t access the DOM directly. Instead, a service worker can communicate with the pages it controls by responding to messages sent via the PostMessage interface, and those pages can manipulate the DOM if needed.</li>
+<li>Service worker is a programmable network proxy, allowing you to control how network requests from your page are handled.</li>
+<li>It will be terminated when not in use, and restarted when it’s next needed, so you cannot rely on global state within a service worker’s <code>onfetch</code> and <code>onmessage</code> handlers. If there is information that you need to persist and reuse across restarts, service workers do have access to the IndexedDB API.</li>
+<li>Service workers make extensive use of promises, so if you’re new to promises, then you should stop reading this and check out Jake Archibald’s article.<br>service worker值得注意的一些事情：</li>
+<li>它是一个javascript工作线程，所以它不能直接操作DOM。但service worker可以和它控制的页面通信，这些页面可以操作DOM。</li>
+<li>Service worker是一个可编程的网络代理，它允许你去控制网络怎么从你的页面请求。</li>
+<li>它会在没有在使用时终止，而且会在需要时重启，所以你不能依赖service worder的<code>onfetch</code>和<code>onmessage</code>事件处理函数。如果你有信息需要在重启后保存和重用，service worder倒是可以访问IndexedDB API.</li>
+<li>Service worders大量使用<code>promises</code>,所以如果你对promises不熟悉，你不用继续读下去了。请先阅读<a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank" rel="external">Jake Archibald’s article</a></li>
+</ul>
+
+      
+    </div>
+    <footer>
+      
+        
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+  
+    <article class="post">
+  
+  <div class="post-content">
+    <header>
+      
+        <div class="icon"></div>
         <time datetime="2014-11-03T03:41:56.000Z"><a href="/2014/11/03/javascript类和继承分析/">Nov 3 2014</a></time>
       
       
@@ -361,85 +446,6 @@
 
 
   
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-07-17T13:28:35.000Z"><a href="/2014/07/17/jquery自定义事件和事件命名空间/">Jul 17 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/17/jquery自定义事件和事件命名空间/">jquery自定义事件和命名空间</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <h2 id="自定义事件">自定义事件</h2>
-<p>trigger()方法不仅能触发浏览器支持的事件，也可以触发自定义名称的事件。<br>例如为元素绑定一个<code>myClick</code>事件，jquery代码如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'#btn'</span>).bind(<span class="string">'myClick'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'#test'</span>).append(<span class="string">'&lt;p&gt;我的自定义事件&lt;/p&gt;'</span>);</div><div class="line">});</div></pre></td></tr></table></figure>
-
-<p>想要触发这个事件，可以使用以下代码来实现：</p>
-<p><code>$(&#39;#btn&#39;).trigger(&#39;myClick&#39;);</code></p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/07/17/jquery自定义事件和事件命名空间/#more" class="more-link">阅读全文</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
-    <article class="post">
-  
-  <div class="post-content">
-    <header>
-      
-        <div class="icon"></div>
-        <time datetime="2014-07-15T15:50:31.000Z"><a href="/2014/07/15/grunt配置实例/">Jul 15 2014</a></time>
-      
-      
-  
-    <h1 class="title"><a href="/2014/07/15/grunt配置实例/">grunt配置实例</a></h1>
-  
-
-    </header>
-    <div class="entry">
-      
-        <p>本文会讲解一个用gruntjs完成一个简单首页的工程自动化。其中包括图片的压缩，css的合并压缩和js的合并压缩。</p>
-
-      
-    </div>
-    <footer>
-      
-        
-          <div class="alignleft">
-            <a href="/2014/07/15/grunt配置实例/#more" class="more-link">阅读全文</a>
-          </div>
-        
-        
-      
-      <div class="clearfix"></div>
-    </footer>
-  </div>
-</article>
-
-
-
-  
 
   <nav id="pagination">
   
@@ -464,9 +470,9 @@
   
     <li><a href="/categories/grunt/">grunt</a><small>2</small></li>
   
-    <li><a href="/categories/html5/">html5</a><small>1</small></li>
+    <li><a href="/categories/html5/">html5</a><small>2</small></li>
   
-    <li><a href="/categories/javascript/">javascript</a><small>6</small></li>
+    <li><a href="/categories/javascript/">javascript</a><small>7</small></li>
   
   </ul>
 </div>
@@ -476,6 +482,8 @@
 <div class="widget tag">
   <h3 class="title">标签</h3>
   <ul class="entry">
+  
+    <li><a href="/tags/Service-Worker/">Service Worker</a><small>1</small></li>
   
     <li><a href="/tags/array/">array</a><small>1</small></li>
   
@@ -491,7 +499,7 @@
   
     <li><a href="/tags/template/">template</a><small>1</small></li>
   
-    <li><a href="/tags/tips/">tips</a><small>1</small></li>
+    <li><a href="/tags/tips/">tips</a><small>2</small></li>
   
     <li><a href="/tags/异步/">异步</a><small>1</small></li>
   
@@ -507,6 +515,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2014/12/09/difference-between-success()--and-complete()/">difference between .success()  and .complete()</a>
+      </li>
+    
+      <li>
+        <a href="/2014/12/08/初步认识Service-Worker/">初步认识Service Worker</a>
+      </li>
+    
+      <li>
         <a href="/2014/11/03/javascript类和继承分析/">javascript类和继承分析</a>
       </li>
     
@@ -516,14 +532,6 @@
     
       <li>
         <a href="/2014/10/22/useful-javascript-tips,-tricks-and-best-practices/">useful javascript tips, tricks and best practices</a>
-      </li>
-    
-      <li>
-        <a href="/2014/10/15/如何并发异步获取数据/">如何并发异步获取数据</a>
-      </li>
-    
-      <li>
-        <a href="/2014/10/08/3个你应该开始使用的新array方法/">5个你应该开始使用的新array方法</a>
       </li>
     
   </ul>
