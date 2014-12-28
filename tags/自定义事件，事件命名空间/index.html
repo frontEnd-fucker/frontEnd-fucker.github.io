@@ -64,7 +64,13 @@
       
         <h2 id="自定义事件">自定义事件</h2>
 <p>trigger()方法不仅能触发浏览器支持的事件，也可以触发自定义名称的事件。<br>例如为元素绑定一个<code>myClick</code>事件，jquery代码如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'#btn'</span>).bind(<span class="string">'myClick'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'#test'</span>).append(<span class="string">'&lt;p&gt;我的自定义事件&lt;/p&gt;'</span>);</div><div class="line">});</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>$(<span class="string">'#btn'</span>).bind(<span class="string">'myClick'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'#test'</span>).append(<span class="string">'&lt;p&gt;我的自定义事件&lt;/p&gt;'</span>);
+});
+</pre></td></tr></table></figure>
 
 <p>想要触发这个事件，可以使用以下代码来实现：</p>
 <p><code>$(&#39;#btn&#39;).trigger(&#39;myClick&#39;);</code></p>
@@ -110,9 +116,11 @@
   
     <li><a href="/categories/grunt/">grunt</a><small>2</small></li>
   
-    <li><a href="/categories/html5/">html5</a><small>2</small></li>
+    <li><a href="/categories/html5/">html5</a><small>3</small></li>
   
     <li><a href="/categories/javascript/">javascript</a><small>7</small></li>
+  
+    <li><a href="/categories/react/">react</a><small>1</small></li>
   
   </ul>
 </div>
@@ -123,7 +131,7 @@
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Service-Worker/">Service Worker</a><small>1</small></li>
+    <li><a href="/tags/Service Worker/">Service Worker</a><small>1</small></li>
   
     <li><a href="/tags/array/">array</a><small>1</small></li>
   
@@ -137,6 +145,8 @@
   
     <li><a href="/tags/js面向对象/">js面向对象</a><small>1</small></li>
   
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
     <li><a href="/tags/template/">template</a><small>1</small></li>
   
     <li><a href="/tags/tips/">tips</a><small>2</small></li>
@@ -144,6 +154,8 @@
     <li><a href="/tags/异步/">异步</a><small>1</small></li>
   
     <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
+  
+    <li><a href="/tags/跨域 CORS/">跨域 CORS</a><small>1</small></li>
   
   </ul>
 </div>
@@ -155,6 +167,14 @@
   <ul class="entry">
     
       <li>
+        <a href="/2014/12/22/如何使用CORS/">如何使用CORS</a>
+      </li>
+    
+      <li>
+        <a href="/2014/12/17/Getting-Started-With-React/">Getting Started With React</a>
+      </li>
+    
+      <li>
         <a href="/2014/12/09/difference-between-success()--and-complete()/">difference between .success()  and .complete()</a>
       </li>
     
@@ -164,14 +184,6 @@
     
       <li>
         <a href="/2014/11/03/javascript类和继承分析/">javascript类和继承分析</a>
-      </li>
-    
-      <li>
-        <a href="/2014/10/28/Web-Components-Template/">Web Components Template</a>
-      </li>
-    
-      <li>
-        <a href="/2014/10/22/useful-javascript-tips,-tricks-and-best-practices/">useful javascript tips, tricks and best practices</a>
       </li>
     
   </ul>

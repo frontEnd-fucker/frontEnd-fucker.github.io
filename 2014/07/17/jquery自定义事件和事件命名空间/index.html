@@ -8,7 +8,13 @@
   
   <meta name="description" content="自定义事件
 trigger()方法不仅能触发浏览器支持的事件，也可以触发自定义名称的事件。例如为元素绑定一个myClick事件，jquery代码如下：
-123$(&#39;#btn&#39;).bind(&#39;myClick&#39;, function() {  $(&#39;#test&#39;).append(&#39;&amp;lt;p&amp;gt;我的自定义事件&amp;lt;/p&amp;gt;&#39;);});
+1
+2
+3
+$(&#39;#btn&#39;).bind(&#39;myClick&#39;, function() {
+  $(&#39;#test&#39;).append(&#39;&amp;lt;p&amp;gt;我的自定义事件&amp;lt;/p&amp;gt;&#39;);
+});
+
 
 想要触发这个事件，可以使用以下代码来实现：
 $(&amp;#39;#btn&amp;#39;).trigger(&amp;#39;myClick&amp;#39;);">
@@ -66,7 +72,13 @@ $(&amp;#39;#btn&amp;#39;).trigger(&amp;#39;myClick&amp;#39;);">
       
         <h2 id="自定义事件">自定义事件</h2>
 <p>trigger()方法不仅能触发浏览器支持的事件，也可以触发自定义名称的事件。<br>例如为元素绑定一个<code>myClick</code>事件，jquery代码如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'#btn'</span>).bind(<span class="string">'myClick'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'#test'</span>).append(<span class="string">'&lt;p&gt;我的自定义事件&lt;/p&gt;'</span>);</div><div class="line">});</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre>$(<span class="string">'#btn'</span>).bind(<span class="string">'myClick'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'#test'</span>).append(<span class="string">'&lt;p&gt;我的自定义事件&lt;/p&gt;'</span>);
+});
+</pre></td></tr></table></figure>
 
 <p>想要触发这个事件，可以使用以下代码来实现：</p>
 <p><code>$(&#39;#btn&#39;).trigger(&#39;myClick&#39;);</code></p>
@@ -74,12 +86,54 @@ $(&amp;#39;#btn&amp;#39;).trigger(&amp;#39;myClick&amp;#39;);">
 
 <h2 id="添加事件命名空间，便于管理">添加事件命名空间，便于管理</h2>
 <p>例如可以把为元素绑定的多个事件类型用命名空间规范起来，jquery代码如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'div'</span>).bind(<span class="string">'click.plugin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;click事件&lt;/p&gt;'</span>);</div><div class="line">});</div><div class="line">$(<span class="string">'div'</span>).bind(<span class="string">'mouseover.plugin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;mouseover事件&lt;/p&gt;'</span>);</div><div class="line">});</div><div class="line">$(<span class="string">'div'</span>).bind(<span class="string">'dblclick.plugin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;dblclick事件&lt;/p&gt;'</span>);</div><div class="line">});</div><div class="line">$(<span class="string">'button'</span>).click(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'div'</span>).unbind(<span class="string">'.plugin'</span>);</div><div class="line">});</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre>$(<span class="string">'div'</span>).bind(<span class="string">'click.plugin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;click事件&lt;/p&gt;'</span>);
+});
+$(<span class="string">'div'</span>).bind(<span class="string">'mouseover.plugin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;mouseover事件&lt;/p&gt;'</span>);
+});
+$(<span class="string">'div'</span>).bind(<span class="string">'dblclick.plugin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;dblclick事件&lt;/p&gt;'</span>);
+});
+$(<span class="string">'button'</span>).click(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'div'</span>).unbind(<span class="string">'.plugin'</span>);
+});
+</pre></td></tr></table></figure>
 
 <p>单击button后，在<code>plugin</code>命名空间下的事件被删除，而不在该命名空间的<code>dblclick</code>事件依然存在。</p>
 <h2 id="相同事件名称，不同命名空间执行方法">相同事件名称，不同命名空间执行方法</h2>
 <p>例如可以为元素绑定相同的事件类型，然后以命名空间的不同按需调用，jquery代码如下</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'div'</span>).bind(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;click事件&lt;/p&gt;'</span>);</div><div class="line">});</div><div class="line">$(<span class="string">'div'</span>).bind(<span class="string">'click.plugin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;click.plugin事件&lt;/p&gt;'</span>);</div><div class="line">});</div><div class="line">$(<span class="string">'button'</span>).click(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'div'</span>).trigger(<span class="string">'click!'</span>); <span class="comment">//注意click后面的叹号</span></div><div class="line">});</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+</pre></td><td class="code"><pre>$(<span class="string">'div'</span>).bind(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;click事件&lt;/p&gt;'</span>);
+});
+$(<span class="string">'div'</span>).bind(<span class="string">'click.plugin'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'body'</span>).append(<span class="string">'&lt;p&gt;click.plugin事件&lt;/p&gt;'</span>);
+});
+$(<span class="string">'button'</span>).click(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  $(<span class="string">'div'</span>).trigger(<span class="string">'click!'</span>); <span class="comment">//注意click后面的叹号</span>
+});
+</pre></td></tr></table></figure>
 
 <p>当点击div后，会同时触发click事件和click.plugin事件。如果只是点击button则只会触发click事件，而不触发click.plugin事件。<br>注意，<code>click!</code>后面的感叹号的作用是匹配所有不包含在命名空间中的click事件。<br>如果需要两者都被触发，改为如下代码即可：<br><code>$(&#39;div&#39;).trigger(&#39;click&#39;); //去掉感叹号</code></p>
 <h2 id="事件命名空间应用实例">事件命名空间应用实例</h2>
@@ -144,9 +198,11 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   
     <li><a href="/categories/grunt/">grunt</a><small>2</small></li>
   
-    <li><a href="/categories/html5/">html5</a><small>2</small></li>
+    <li><a href="/categories/html5/">html5</a><small>3</small></li>
   
     <li><a href="/categories/javascript/">javascript</a><small>7</small></li>
+  
+    <li><a href="/categories/react/">react</a><small>1</small></li>
   
   </ul>
 </div>
@@ -157,7 +213,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Service-Worker/">Service Worker</a><small>1</small></li>
+    <li><a href="/tags/Service Worker/">Service Worker</a><small>1</small></li>
   
     <li><a href="/tags/array/">array</a><small>1</small></li>
   
@@ -171,6 +227,8 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   
     <li><a href="/tags/js面向对象/">js面向对象</a><small>1</small></li>
   
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
     <li><a href="/tags/template/">template</a><small>1</small></li>
   
     <li><a href="/tags/tips/">tips</a><small>2</small></li>
@@ -178,6 +236,8 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
     <li><a href="/tags/异步/">异步</a><small>1</small></li>
   
     <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
+  
+    <li><a href="/tags/跨域 CORS/">跨域 CORS</a><small>1</small></li>
   
   </ul>
 </div>
@@ -189,6 +249,14 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   <ul class="entry">
     
       <li>
+        <a href="/2014/12/22/如何使用CORS/">如何使用CORS</a>
+      </li>
+    
+      <li>
+        <a href="/2014/12/17/Getting-Started-With-React/">Getting Started With React</a>
+      </li>
+    
+      <li>
         <a href="/2014/12/09/difference-between-success()--and-complete()/">difference between .success()  and .complete()</a>
       </li>
     
@@ -198,14 +266,6 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
     
       <li>
         <a href="/2014/11/03/javascript类和继承分析/">javascript类和继承分析</a>
-      </li>
-    
-      <li>
-        <a href="/2014/10/28/Web-Components-Template/">Web Components Template</a>
-      </li>
-    
-      <li>
-        <a href="/2014/10/22/useful-javascript-tips,-tricks-and-best-practices/">useful javascript tips, tricks and best practices</a>
       </li>
     
   </ul>

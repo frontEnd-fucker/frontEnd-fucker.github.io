@@ -66,32 +66,142 @@
 <p>和String的indexOf方法用法一样，indexOf()返回给定元素在数组中第一次出现的索引，如果找不到就返回-1。</p>
 <p>使用案例：检测‘orange’是否在数组中。</p>
 <p>不使用<code>indexOf()</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'orange'</span>, <span class="string">'pear'</span>],</div><div class="line">    found = <span class="literal">false</span>;</div><div class="line"></div><div class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>, l=arr.length; i&lt;l; i++) {</div><div class="line">        <span class="keyword">if</span>(arr[i] === <span class="string">'orange'</span>) {</div><div class="line">            found = <span class="literal">true</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'found:'</span>, found);</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+</pre></td><td class="code"><pre><span class="reserved">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'orange'</span>, <span class="string">'pear'</span>],
+    found = <span class="literal">false</span>;
+
+    <span class="keyword">for</span>(<span class="reserved">var</span> i=<span class="number">0</span>, l=arr.length; i&lt;l; i++) {
+        <span class="keyword">if</span>(arr[i] === <span class="string">'orange'</span>) {
+            found = <span class="literal">true</span>;
+        }
+    }
+
+<span class="built_in">console</span>.log(<span class="string">'found:'</span>, found);
+</pre></td></tr></table></figure>
 
 <p>使用<code>indexOf()</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'orange'</span>, <span class="string">'pear'</span>];</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'found:'</span>, arr.indexOf(<span class="string">'orange'</span>) != -<span class="number">1</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="reserved">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'orange'</span>, <span class="string">'pear'</span>];
+
+<span class="built_in">console</span>.log(<span class="string">'found:'</span>, arr.indexOf(<span class="string">'orange'</span>) != -<span class="number">1</span>);
+</pre></td></tr></table></figure>
 
 <p>使用<code>jquery</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'orange'</span>, <span class="string">'pear'</span>];</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'found:'</span>, $.inArray(<span class="string">'orange'</span>, arr) != -<span class="number">1</span>);</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+</pre></td><td class="code"><pre><span class="keyword">var</span> arr = [<span class="string">'apple'</span>, <span class="string">'orange'</span>, <span class="string">'pear'</span>];
+
+console.log(<span class="string">'found:'</span>, $.inArray(<span class="string">'orange'</span>, arr) != -<span class="number">1</span>);
+</pre></td></tr></table></figure>
 
 <h2 id="2)filter">2)filter</h2>
 <p>filter()生成一个新数组，该数组由能通过给定function测试的元素组成（元素传入function返回true的）。</p>
 <p>使用案例：找出数组中名字为‘orange’的元素。</p>
 <p>不使用<code>filter()</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [</div><div class="line">    {<span class="string">"name"</span>: <span class="string">"apple"</span>, <span class="string">"count"</span>: <span class="number">2</span>},</div><div class="line">    {<span class="string">"name"</span>: <span class="string">"orange"</span>, <span class="string">"count"</span>: <span class="number">5</span>},</div><div class="line">    {<span class="string">"name"</span>:<span class="string">"pear"</span>, <span class="string">"count"</span>: <span class="number">3</span>},</div><div class="line">    {<span class="string">"name"</span>:<span class="string">"orange"</span>, <span class="string">"count"</span>: <span class="number">16</span>},</div><div class="line">];</div><div class="line"></div><div class="line"><span class="keyword">var</span> newArr = [];</div><div class="line"></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>, l=arr.length; i&lt;l; i++) {</div><div class="line">    <span class="keyword">if</span>(arr[i].name === <span class="string">'orange'</span>) {</div><div class="line">        newArr.push(arr[i]);</div><div class="line">    };</div><div class="line">};</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'filter results:'</span>, newArr);</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+</pre></td><td class="code"><pre><span class="reserved">var</span> arr = [
+    {<span class="string">"name"</span>: <span class="string">"apple"</span>, <span class="string">"count"</span>: <span class="number">2</span>},
+    {<span class="string">"name"</span>: <span class="string">"orange"</span>, <span class="string">"count"</span>: <span class="number">5</span>},
+    {<span class="string">"name"</span>:<span class="string">"pear"</span>, <span class="string">"count"</span>: <span class="number">3</span>},
+    {<span class="string">"name"</span>:<span class="string">"orange"</span>, <span class="string">"count"</span>: <span class="number">16</span>},
+];
+
+<span class="reserved">var</span> newArr = [];
+
+<span class="keyword">for</span>(<span class="reserved">var</span> i=<span class="number">0</span>, l=arr.length; i&lt;l; i++) {
+    <span class="keyword">if</span>(arr[i].name === <span class="string">'orange'</span>) {
+        newArr.push(arr[i]);
+    };
+};
+
+<span class="built_in">console</span>.log(<span class="string">'filter results:'</span>, newArr);
+</pre></td></tr></table></figure>
 
 <p>使用<code>filter()</code></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [</div><div class="line">    {<span class="string">"name"</span>: <span class="string">"apple"</span>, <span class="string">"count"</span>: <span class="number">2</span>},</div><div class="line">    {<span class="string">"name"</span>: <span class="string">"orange"</span>, <span class="string">"count"</span>: <span class="number">5</span>},</div><div class="line">    {<span class="string">"name"</span>:<span class="string">"pear"</span>, <span class="string">"count"</span>: <span class="number">3</span>},</div><div class="line">    {<span class="string">"name"</span>:<span class="string">"orange"</span>, <span class="string">"count"</span>: <span class="number">16</span>},</div><div class="line">];</div><div class="line"></div><div class="line"><span class="keyword">var</span> newArr = arr.filter(<span class="function"><span class="keyword">function</span><span class="params">(item)</span> </span>{</div><div class="line">    <span class="keyword">return</span> item.name === <span class="string">'orange'</span></div><div class="line">});</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">'filter results:'</span>, newArr);</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="keyword">var</span> arr = [
+    {<span class="string">"name"</span>: <span class="string">"apple"</span>, <span class="string">"count"</span>: <span class="number">2</span>},
+    {<span class="string">"name"</span>: <span class="string">"orange"</span>, <span class="string">"count"</span>: <span class="number">5</span>},
+    {<span class="string">"name"</span>:<span class="string">"pear"</span>, <span class="string">"count"</span>: <span class="number">3</span>},
+    {<span class="string">"name"</span>:<span class="string">"orange"</span>, <span class="string">"count"</span>: <span class="number">16</span>},
+];
+
+<span class="keyword">var</span> newArr = arr.filter(<span class="function"><span class="keyword">function</span><span class="params">(item)</span> {</span>
+    <span class="keyword">return</span> item.name === <span class="string">'orange'</span>
+});
+
+console.log(<span class="string">'filter results:'</span>, newArr);
+</pre></td></tr></table></figure>
 
 <h2 id="3)forEach">3)forEach</h2>
 <p>forEach()方法用来给数组中的每个元素都执行一个给定的function.</p>
 <p>使用案例：迭代一个数组</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];</div><div class="line"></div><div class="line"><span class="comment">//使用for循环迭代</span></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>, l=arr.length; i&lt;l; i++) {</div><div class="line">    <span class="built_in">console</span>.log(arr[i]);</div><div class="line">};</div><div class="line"></div><div class="line"><span class="comment">//使用forEach()迭代</span></div><div class="line">arr.forEach(<span class="function"><span class="keyword">function</span><span class="params">(item, index)</span> </span>{</div><div class="line">    <span class="built_in">console</span>.log(item);</div><div class="line">});</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+</pre></td><td class="code"><pre><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>];
+
+<span class="comment">//使用for循环迭代</span>
+<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>, l=arr.length; i&lt;l; i++) {
+    console.log(arr[i]);
+};
+
+<span class="comment">//使用forEach()迭代</span>
+arr.<span class="keyword">forEach</span>(<span class="function"><span class="keyword">function</span><span class="params">(item, index)</span> {</span>
+    console.log(item);
+});
+</pre></td></tr></table></figure>
 
 <blockquote>
-<p>注意：根据<a href="http://jsperf.com/foreach-vs-loop" target="_blank" rel="external">jsperf</a>,forEach()&gt;比for循环性能要差。<br>但作者认为我还会使用forEach除非我要迭代很大的数据（大于100w的数据）。节省毫秒级的性能不应该作为开发的优先级</p>
+<p>注意：根据<a href="http://jsperf.com/foreach-vs-loop" target="_blank">jsperf</a>,forEach()&gt;比for循环性能要差。<br>但作者认为我还会使用forEach除非我要迭代很大的数据（大于100w的数据）。节省毫秒级的性能不应该作为开发的优先级</p>
 </blockquote>
-<p>译自: <a href="http://colintoh.com/blog/5-array-methods-that-you-should-use-today?utm_source=javascriptweekly&amp;utm_medium=email" target="_blank" rel="external">javascript weekly</a></p>
+<p>译自: <a href="http://colintoh.com/blog/5-array-methods-that-you-should-use-today?utm_source=javascriptweekly&amp;utm_medium=email" target="_blank">javascript weekly</a></p>
 
       
     </div>
@@ -152,9 +262,11 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   
     <li><a href="/categories/grunt/">grunt</a><small>2</small></li>
   
-    <li><a href="/categories/html5/">html5</a><small>2</small></li>
+    <li><a href="/categories/html5/">html5</a><small>3</small></li>
   
     <li><a href="/categories/javascript/">javascript</a><small>7</small></li>
+  
+    <li><a href="/categories/react/">react</a><small>1</small></li>
   
   </ul>
 </div>
@@ -165,7 +277,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Service-Worker/">Service Worker</a><small>1</small></li>
+    <li><a href="/tags/Service Worker/">Service Worker</a><small>1</small></li>
   
     <li><a href="/tags/array/">array</a><small>1</small></li>
   
@@ -179,6 +291,8 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   
     <li><a href="/tags/js面向对象/">js面向对象</a><small>1</small></li>
   
+    <li><a href="/tags/react/">react</a><small>1</small></li>
+  
     <li><a href="/tags/template/">template</a><small>1</small></li>
   
     <li><a href="/tags/tips/">tips</a><small>2</small></li>
@@ -186,6 +300,8 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
     <li><a href="/tags/异步/">异步</a><small>1</small></li>
   
     <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
+  
+    <li><a href="/tags/跨域 CORS/">跨域 CORS</a><small>1</small></li>
   
   </ul>
 </div>
@@ -197,6 +313,14 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   <ul class="entry">
     
       <li>
+        <a href="/2014/12/22/如何使用CORS/">如何使用CORS</a>
+      </li>
+    
+      <li>
+        <a href="/2014/12/17/Getting-Started-With-React/">Getting Started With React</a>
+      </li>
+    
+      <li>
         <a href="/2014/12/09/difference-between-success()--and-complete()/">difference between .success()  and .complete()</a>
       </li>
     
@@ -206,14 +330,6 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
     
       <li>
         <a href="/2014/11/03/javascript类和继承分析/">javascript类和继承分析</a>
-      </li>
-    
-      <li>
-        <a href="/2014/10/28/Web-Components-Template/">Web Components Template</a>
-      </li>
-    
-      <li>
-        <a href="/2014/10/22/useful-javascript-tips,-tricks-and-best-practices/">useful javascript tips, tricks and best practices</a>
       </li>
     
   </ul>
