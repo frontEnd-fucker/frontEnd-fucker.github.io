@@ -63,82 +63,12 @@
 <a id="more"></a>
 
 <h2 id="方案一：">方案一：</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>$.get(<span class="string">'http://data1_source'</span>, <span class="function"><span class="keyword">function</span><span class="params">(data1)</span> {</span>
-    $.get(<span class="string">'http://data2_source'</span>, <span class="function"><span class="keyword">function</span><span class="params">(data2)</span> {</span>
-        $.get(<span class="string">'http://data3_source'</span>, <span class="function"><span class="keyword">function</span><span class="params">(data3)</span> {</span>
-            <span class="keyword">var</span> html = manage(data1, data2, data3);
-            render(html);
-        });
-    });
-});
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">$.get(<span class="string">'http://data1_source'</span>, <span class="function"><span class="keyword">function</span><span class="params">(data1)</span> </span>{</div><div class="line">    $.get(<span class="string">'http://data2_source'</span>, <span class="function"><span class="keyword">function</span><span class="params">(data2)</span> </span>{</div><div class="line">        $.get(<span class="string">'http://data3_source'</span>, <span class="function"><span class="keyword">function</span><span class="params">(data3)</span> </span>{</div><div class="line">            <span class="keyword">var</span> html = manage(data1, data2, data3);</div><div class="line">            render(html);</div><div class="line">        });</div><div class="line">    });</div><div class="line">});</div></pre></td></tr></table></figure>
 
 <p>上面的代码相信大家都写过。先获取<code>data1</code>，获取完成后再获取<code>data2</code>，然后再获取<code>data3</code>，然后处理它们，进行输出。获取数据总用时为time1+time2+time3;</p>
 <p>但大家其实也知道，其实这3个源的数据是可以并行去获取的，<code>data1</code>不依赖<code>data2</code>的完成，同理<code>data3</code>也不依赖<code>data2</code>.为了优化性能我们有了以下方案二。</p>
 <h2 id="方案二，使用计数器：">方案二，使用计数器：</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-</pre></td><td class="code"><pre><span class="list">(<span class="title">function</span><span class="list">()</span> {
-    var count = <span class="number">0</span><span class="comment">; //计数器</span>
-    var result = {}<span class="comment">; //用来保存获取的数据</span>
-
-    $.get<span class="list">('http<span class="keyword">://data1_source</span>', function<span class="list">(<span class="title">data</span>)</span> {
-        result.data<span class="number">1</span> = data<span class="comment">;</span>
-        count++<span class="comment">;</span>
-        handle<span class="list">()</span><span class="comment">;</span>
-    })</span><span class="comment">;</span>
-    $.get<span class="list">('http<span class="keyword">://data2_source</span>', function<span class="list">(<span class="title">data</span>)</span> {
-        result.data<span class="number">2</span> = data<span class="comment">;</span>
-        count++<span class="comment">;</span>
-        handle<span class="list">()</span><span class="comment">;</span>
-    })</span><span class="comment">;</span>
-    $.get<span class="list">('http<span class="keyword">://data3_source</span>', function<span class="list">(<span class="title">data</span>)</span> {
-        result.data<span class="number">3</span> = data<span class="comment">;</span>
-        count++<span class="comment">;</span>
-        handle<span class="list">()</span><span class="comment">;</span>
-    })</span><span class="comment">;</span>
-
-    function handle<span class="list">()</span> {
-        if<span class="list">(<span class="title">count</span> === <span class="number">3</span>)</span> { //当取得了<span class="number">3</span>个数据后执行
-            var html = manage<span class="list">(<span class="title">result</span>.data<span class="number">1</span>, result.data<span class="number">2</span>, result.data<span class="number">3</span>)</span><span class="comment">;</span>
-            render<span class="list">(<span class="title">html</span>)</span><span class="comment">;</span>
-        }
-    }<span class="comment">;</span>
-})</span><span class="list">()</span><span class="comment">;</span>
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">(function() {</div><div class="line">    <span class="keyword">var</span> count = <span class="number">0</span>; //计数器</div><div class="line">    <span class="keyword">var</span> <span class="literal">result</span> = {}; //用来保存获取的数据</div><div class="line"></div><div class="line">    $.get('http://data1_source', function(data) {</div><div class="line">        <span class="literal">result</span>.data1 = data;</div><div class="line">        count++;</div><div class="line">        handle();</div><div class="line">    });</div><div class="line">    $.get('http://data2_source', function(data) {</div><div class="line">        <span class="literal">result</span>.data2 = data;</div><div class="line">        count++;</div><div class="line">        handle();</div><div class="line">    });</div><div class="line">    $.get('http://data3_source', function(data) {</div><div class="line">        <span class="literal">result</span>.data3 = data;</div><div class="line">        count++;</div><div class="line">        handle();</div><div class="line">    });</div><div class="line"></div><div class="line">    function handle() {</div><div class="line">        <span class="keyword">if</span>(count === <span class="number">3</span>) { //当取得了<span class="number">3</span>个数据后执行</div><div class="line">            <span class="keyword">var</span> html = manage(<span class="literal">result</span>.data1, <span class="literal">result</span>.data2, <span class="literal">result</span>.data3);</div><div class="line">            render(html);</div><div class="line">        }</div><div class="line">    };</div><div class="line">})();</div></pre></td></tr></table></figure>
 
 <p>这样就做到了并行获取这3个数据了，不用依赖数据获取的先后，获取数据总用时为Math.max(time1, time2, time3);</p>
 <blockquote>
@@ -146,73 +76,11 @@
 </blockquote>
 <hr>
 <h2 id="2014-11-05">2014.11.05</h2>
-<p>受<a href="https://github.com/rvagg/learnyounode/blob/master/exercises/juggling_async/solution/solution.js" target="_blank">learnyounode</a>的启发，改为以下代码更<strong>语义化</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-</pre></td><td class="code"><pre><span class="list">(<span class="title">function</span><span class="list">()</span> {
-    var count = <span class="number">0</span><span class="comment">; //计数器</span>
-    var result = {}<span class="comment">; //用来保存获取的数据</span>
-
-    $.get<span class="list">('http<span class="keyword">://data1_source</span>', function<span class="list">(<span class="title">data</span>)</span> {
-        result.data<span class="number">1</span> = data<span class="comment">;</span>
-        count++<span class="comment">;</span>
-        if<span class="list">(<span class="title">count</span> == <span class="number">3</span>)</span> {
-            handle<span class="list">()</span><span class="comment">;</span>
-        }
-    })</span><span class="comment">;</span>
-    $.get<span class="list">('http<span class="keyword">://data2_source</span>', function<span class="list">(<span class="title">data</span>)</span> {
-        result.data<span class="number">2</span> = data<span class="comment">;</span>
-        count++<span class="comment">;</span>
-        if<span class="list">(<span class="title">count</span> == <span class="number">3</span>)</span> {
-            handle<span class="list">()</span><span class="comment">;</span>
-        }
-    })</span><span class="comment">;</span>
-    $.get<span class="list">('http<span class="keyword">://data3_source</span>', function<span class="list">(<span class="title">data</span>)</span> {
-        result.data<span class="number">3</span> = data<span class="comment">;</span>
-        count++<span class="comment">;</span>
-        if<span class="list">(<span class="title">count</span> == <span class="number">3</span>)</span> {
-            handle<span class="list">()</span><span class="comment">;</span>
-        }
-    })</span><span class="comment">;</span>
-
-    function handle<span class="list">()</span> {
-        var html = manage<span class="list">(<span class="title">result</span>.data<span class="number">1</span>, result.data<span class="number">2</span>, result.data<span class="number">3</span>)</span><span class="comment">;</span>
-        render<span class="list">(<span class="title">html</span>)</span><span class="comment">;</span>
-    }<span class="comment">;</span>
-})</span><span class="list">()</span><span class="comment">;</span>
-</pre></td></tr></table></figure>
+<p>受<a href="https://github.com/rvagg/learnyounode/blob/master/exercises/juggling_async/solution/solution.js" target="_blank" rel="external">learnyounode</a>的启发，改为以下代码更<strong>语义化</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">(function() {</div><div class="line">    <span class="keyword">var</span> count = <span class="number">0</span>; //计数器</div><div class="line">    <span class="keyword">var</span> <span class="literal">result</span> = {}; //用来保存获取的数据</div><div class="line"></div><div class="line">    $.get('http://data1_source', function(data) {</div><div class="line">        <span class="literal">result</span>.data1 = data;</div><div class="line">        count++;</div><div class="line">        <span class="keyword">if</span>(count == <span class="number">3</span>) {</div><div class="line">            handle();</div><div class="line">        }</div><div class="line">    });</div><div class="line">    $.get('http://data2_source', function(data) {</div><div class="line">        <span class="literal">result</span>.data2 = data;</div><div class="line">        count++;</div><div class="line">        <span class="keyword">if</span>(count == <span class="number">3</span>) {</div><div class="line">            handle();</div><div class="line">        }</div><div class="line">    });</div><div class="line">    $.get('http://data3_source', function(data) {</div><div class="line">        <span class="literal">result</span>.data3 = data;</div><div class="line">        count++;</div><div class="line">        <span class="keyword">if</span>(count == <span class="number">3</span>) {</div><div class="line">            handle();</div><div class="line">        }</div><div class="line">    });</div><div class="line"></div><div class="line">    function handle() {</div><div class="line">        <span class="keyword">var</span> html = manage(<span class="literal">result</span>.data1, <span class="literal">result</span>.data2, <span class="literal">result</span>.data3);</div><div class="line">        render(html);</div><div class="line">    };</div><div class="line">})();</div></pre></td></tr></table></figure>
 
 <p>即不是每次获得数据后都尝试去handle，而是每次获得数据后都判断一下，当满足条件后就去handler。感觉这样更语义化，更符合人类语言。</p>
-<p>reference: <a href="https://github.com/alsotang/node-lessons/tree/master/lesson4" target="_blank">https://github.com/alsotang/node-lessons/tree/master/lesson4</a></p>
+<p>reference: <a href="https://github.com/alsotang/node-lessons/tree/master/lesson4" target="_blank" rel="external">https://github.com/alsotang/node-lessons/tree/master/lesson4</a></p>
 
       
     </div>
@@ -288,7 +156,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Service Worker/">Service Worker</a><small>1</small></li>
+    <li><a href="/tags/Service-Worker/">Service Worker</a><small>1</small></li>
   
     <li><a href="/tags/array/">array</a><small>1</small></li>
   
@@ -312,7 +180,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   
     <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
   
-    <li><a href="/tags/跨域 CORS/">跨域 CORS</a><small>1</small></li>
+    <li><a href="/tags/跨域-CORS/">跨域 CORS</a><small>1</small></li>
   
   </ul>
 </div>

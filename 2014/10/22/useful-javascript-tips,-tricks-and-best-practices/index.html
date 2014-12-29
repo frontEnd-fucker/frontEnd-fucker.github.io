@@ -59,76 +59,30 @@
     </header>
     <div class="entry">
       
-        <p>本文翻译自<a href="http://modernweb.com/2013/12/23/45-useful-javascript-tips-tricks-and-best-practices/" target="_blank">http://modernweb.com/2013/12/23/45-useful-javascript-tips-tricks-and-best-practices/</a><br>该文章整理了一些js的常用技巧和最佳实践。</p>
+        <p>本文翻译自<a href="http://modernweb.com/2013/12/23/45-useful-javascript-tips-tricks-and-best-practices/" target="_blank" rel="external">http://modernweb.com/2013/12/23/45-useful-javascript-tips-tricks-and-best-practices/</a><br>该文章整理了一些js的常用技巧和最佳实践。</p>
 <a id="more"></a>
 
 <h2 id="1-使用===代替==">1-使用<code>===</code>代替<code>==</code></h2>
 <p><code>==</code>(或者<code>!=</code>)会在比较的时候自动做类型转换。<code>===</code>(或者<code>!==</code>)则不会做类型转换，它会在比较的时候，比较值和类型，它用起来更可靠，速度也比<code>==</code>快。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>[<span class="number">10</span>] === <span class="number">10</span> //<span class="literal">false</span>
-[<span class="number">10</span>] == <span class="number">10</span> //<span class="literal">true</span>
-<span class="string">'10'</span> === <span class="number">10</span> //<span class="literal">false</span>
-<span class="string">'10'</span> == <span class="number">10</span> //<span class="literal">true</span>
-[] === <span class="number">0</span> //<span class="literal">false</span>
-[] == <span class="number">0</span> //<span class="literal">true</span>
-<span class="string">''</span> == <span class="literal">false</span> <span class="regexp">//</span> <span class="keyword">is</span> <span class="literal">true</span> but <span class="literal">true</span> == <span class="string">"a"</span> <span class="keyword">is</span> <span class="literal">false</span>
-<span class="string">''</span> === <span class="literal">false</span> <span class="regexp">//</span> <span class="keyword">is</span> <span class="literal">false</span>
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[<span class="number">10</span>] === <span class="number">10</span> //<span class="literal">false</span></div><div class="line">[<span class="number">10</span>] == <span class="number">10</span> //<span class="literal">true</span></div><div class="line"><span class="string">'10'</span> === <span class="number">10</span> //<span class="literal">false</span></div><div class="line"><span class="string">'10'</span> == <span class="number">10</span> //<span class="literal">true</span></div><div class="line">[] === <span class="number">0</span> //<span class="literal">false</span></div><div class="line">[] == <span class="number">0</span> //<span class="literal">true</span></div><div class="line"><span class="string">''</span> == <span class="literal">false</span> <span class="regexp">//</span> <span class="keyword">is</span> <span class="literal">true</span> but <span class="literal">true</span> == <span class="string">"a"</span> <span class="keyword">is</span> <span class="literal">false</span></div><div class="line"><span class="string">''</span> === <span class="literal">false</span> <span class="regexp">//</span> <span class="keyword">is</span> <span class="literal">false</span></div></pre></td></tr></table></figure>
 
 <h2 id="2-从数组中随机得到一个值">2-从数组中随机得到一个值</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="keyword">var</span> items = [<span class="number">12</span>, <span class="number">48</span>, <span class="string">'a'</span>, <span class="string">'foo'</span>, <span class="number">434</span>, <span class="string">'bar'</span>];
-<span class="keyword">var</span> randomItem = items[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * items.lenght)]
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var <span class="built_in">items</span> = [<span class="number">12</span>, <span class="number">48</span>, <span class="string">'a'</span>, <span class="string">'foo'</span>, <span class="number">434</span>, <span class="string">'bar'</span>];</div><div class="line">var randomItem = <span class="built_in">items</span>[Math.<span class="built_in">floor</span>(Math.random() * <span class="built_in">items</span>.lenght)]</div></pre></td></tr></table></figure>
 
 <h2 id="3-将两个数组合并">3-将两个数组合并</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre>var arr1 = [<span class="number">12</span>, <span class="string">'soo'</span>, {name: <span class="string">'yu'</span>}, -<span class="number">123</span>];
-var arr2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="string">'bar'</span>];
-Array.<span class="keyword">prototype</span>.<span class="keyword">push</span>.apply(arr1, arr2); <span class="regexp">//</span>现在arr1=[<span class="number">12</span>, <span class="string">'soo'</span>, {name: <span class="string">'yu'</span>}, -<span class="number">123</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="string">'bar'</span>]
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var arr1 = [<span class="number">12</span>, <span class="string">'soo'</span>, {name: <span class="string">'yu'</span>}, -<span class="number">123</span>];</div><div class="line">var arr2 = [<span class="number">1</span>, <span class="number">2</span>, <span class="string">'bar'</span>];</div><div class="line">Array.<span class="keyword">prototype</span>.<span class="keyword">push</span>.apply(arr1, arr2); <span class="regexp">//</span>现在arr1=[<span class="number">12</span>, <span class="string">'soo'</span>, {name: <span class="string">'yu'</span>}, -<span class="number">123</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="string">'bar'</span>]</div></pre></td></tr></table></figure>
 
 <h2 id="4-将类数组对象arguments转换成数组">4-将类数组对象arguments转换成数组</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre><span class="keyword">var</span> argArr = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> argArr = <span class="built_in">Array</span>.prototype.slice.call(<span class="built_in">arguments</span>);</div></pre></td></tr></table></figure>
 
 <h2 id="5-从由数字组成的数组中得到最大值或者最小值">5-从由数字组成的数组中得到最大值或者最小值</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-</pre></td><td class="code"><pre><span class="keyword">var</span> numbers = [<span class="number">1</span>, <span class="number">34</span>, <span class="number">3</span>, -<span class="number">1</span>, <span class="number">9</span>, <span class="number">0</span> , <span class="number">1234</span>];
-<span class="keyword">var</span> maxInNumbers = <span class="built_in">Math</span>.max.apply(<span class="built_in">Math</span>, numbers);
-<span class="keyword">var</span> minInNumbers = <span class="built_in">Math</span>.min.apply(<span class="built_in">Math</span>, numbers);
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> numbers = [<span class="number">1</span>, <span class="number">34</span>, <span class="number">3</span>, -<span class="number">1</span>, <span class="number">9</span>, <span class="number">0</span> , <span class="number">1234</span>];</div><div class="line"><span class="keyword">var</span> maxInNumbers = <span class="built_in">Math</span>.max.apply(<span class="built_in">Math</span>, numbers);</div><div class="line"><span class="keyword">var</span> minInNumbers = <span class="built_in">Math</span>.min.apply(<span class="built_in">Math</span>, numbers);</div></pre></td></tr></table></figure>
 
 <h2 id="6-清空一个数组">6-清空一个数组</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-</pre></td><td class="code"><pre><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];
-arr.length = <span class="number">0</span>; <span class="comment">//现在arr=[]</span>
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var <span class="variable">arr =</span> [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</div><div class="line">arr.<span class="variable">length =</span> <span class="number">0</span>; //现在<span class="variable">arr=</span>[]</div></pre></td></tr></table></figure>
 
 <h2 id="7-将一数字转换成带N位小数位的数字">7-将一数字转换成带N位小数位的数字</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre><span class="keyword">var</span> num1 = <span class="number">1.1231231</span>;
-<span class="keyword">var</span> num2 = <span class="number">1</span>;
-num1.toFixed(<span class="number">2</span>); <span class="comment">// -&gt;1.12</span>
-num2.toFixed(<span class="number">2</span>); <span class="comment">// -&gt;1.00</span>
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> num1 = <span class="number">1.1231231</span>;</div><div class="line"><span class="keyword">var</span> num2 = <span class="number">1</span>;</div><div class="line">num1.toFixed(<span class="number">2</span>); <span class="comment">// -&gt;1.12</span></div><div class="line">num2.toFixed(<span class="number">2</span>); <span class="comment">// -&gt;1.00</span></div></pre></td></tr></table></figure>
 
 <p>注意 : toFixed()方法返回字符串而不是数字</p>
 
@@ -206,7 +160,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Service Worker/">Service Worker</a><small>1</small></li>
+    <li><a href="/tags/Service-Worker/">Service Worker</a><small>1</small></li>
   
     <li><a href="/tags/array/">array</a><small>1</small></li>
   
@@ -230,7 +184,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   
     <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
   
-    <li><a href="/tags/跨域 CORS/">跨域 CORS</a><small>1</small></li>
+    <li><a href="/tags/跨域-CORS/">跨域 CORS</a><small>1</small></li>
   
   </ul>
 </div>

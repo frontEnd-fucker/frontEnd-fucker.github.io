@@ -8,7 +8,11 @@
   
   <meta name="description" content="本文翻译自html5rocks (需翻墙)
 Introduction
-APIs are the threads that let you stitch together a rich web experience. But this experience has a hard time transl">
+APIs are the threads that let you stitch together a rich web experience. But this experience has a hard time translating to the browser, where the options for cross-domain requests are limited to techniques like JSON-P (which has limited use due to security concerns) or setting up a custom proxy (which can be a pain to set up and maintain).
+Cross-Origin Resource Sharing (CORS) is a W3C spec that allows cross-domain communication from the browser. By building on top of the XMLHttpRequest object, CORS allows developers to work with the same idioms as same-domain requests.
+介绍
+Cross-Origin Resource Sharing(CORS)是W3C的标准，它允许你进行跨域访问。它建立在XMLHttpRequest对象上。
+The use-case for CORS is simple. Imagine the site alice.com has some data that the site bob.com wants to access. This type of request traditionally wouldn’t be allowed under the browser’s same origin policy. However, by supporting CORS requests, alice.com can add a few special response headers that allows bob.com to access the data.CORS的应用场景很简单。想象一下alice.com有一些数据bob.com想从中获取。因为同源安全策略的存在，传统上这是不能做到的。然而使用了CORS请求后，alice.com可以添加一些特别的答应头部让bob.com可以访问到alice.com的数据。">
   
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -61,106 +65,42 @@ APIs are the threads that let you stitch together a rich web experience. But thi
     </header>
     <div class="entry">
       
-        <p>本文翻译自<a href="http://www.html5rocks.com/en/tutorials/cors/" target="_blank">html5rocks</a> (需翻墙)</p>
+        <p>本文翻译自<a href="http://www.html5rocks.com/en/tutorials/cors/" target="_blank" rel="external">html5rocks</a> (需翻墙)</p>
 <p>Introduction</p>
 <p>APIs are the threads that let you stitch together a rich web experience. But this experience has a hard time translating to the browser, where the options for cross-domain requests are limited to techniques like JSON-P (which has limited use due to security concerns) or setting up a custom proxy (which can be a pain to set up and maintain).</p>
 <p>Cross-Origin Resource Sharing (CORS) is a W3C spec that allows cross-domain communication from the browser. By building on top of the XMLHttpRequest object, CORS allows developers to work with the same idioms as same-domain requests.</p>
 <h2 id="介绍">介绍</h2>
 <p><em>Cross-Origin Resource Sharing(CORS)</em>是W3C的标准，它允许你进行跨域访问。它建立在XMLHttpRequest对象上。</p>
 <p>The use-case for CORS is simple. Imagine the site alice.com has some data that the site bob.com wants to access. This type of request traditionally wouldn’t be allowed under the browser’s same origin policy. However, by supporting CORS requests, alice.com can add a few special response headers that allows bob.com to access the data.<br>CORS的应用场景很简单。想象一下alice.com有一些数据bob.com想从中获取。因为同源安全策略的存在，传统上这是不能做到的。然而使用了CORS请求后，alice.com可以添加一些特别的答应头部让bob.com可以访问到alice.com的数据。</p>
+<a id="more"></a>
+
 <p>As you can see from this example, CORS support requires coordination between both the server and client. Luckily, if you are a client-side developer you are shielded from most of these details. The rest of this article shows how clients can make cross-origin requests, and how servers can configure themselves to support CORS.<br>像你看到的上面的例子一样，使用CORS需要服务端和客户端的合作。文章剩下的部分将告诉你如何在客户端使用CORS发出跨域请求，和如果在配置服务端使它支持CORS.</p>
 <p>Making a CORS Request</p>
 <h2 id="创建CORS请求">创建CORS请求</h2>
 <p>这部分告诉你如何使用java创建跨域请求</p>
 <p>This section shows how to make a cross-domain request in JavaScript.<br>Creating the XMLHttpRequest object</p>
 <p>CORS is supported in the following browsers:</p>
-<p>Chrome 3+<br>Firefox 3.5+<br>Opera 12+<br>Safari 4+<br>Internet Explorer 8+<br>(see the complete list of supported browsers at <a href="http://caniuse.com/#search=cors" target="_blank">http://caniuse.com/#search=cors</a>)<br>Chrome, Firefox, Opera and Safari all use the XMLHttpRequest2 object. Internet Explorer uses the similar XDomainRequest object, which works in much the same way as its XMLHttpRequest counterpart, but adds additional security precautions.</p>
+<p>Chrome 3+<br>Firefox 3.5+<br>Opera 12+<br>Safari 4+<br>Internet Explorer 8+<br>(see the complete list of supported browsers at <a href="http://caniuse.com/#search=cors" target="_blank" rel="external">http://caniuse.com/#search=cors</a>)<br>Chrome, Firefox, Opera and Safari all use the XMLHttpRequest2 object. Internet Explorer uses the similar XDomainRequest object, which works in much the same way as its XMLHttpRequest counterpart, but adds additional security precautions.</p>
 <h3 id="CORS兼容性">CORS兼容性</h3>
-<p>Chrome 3+<br>Firefox 3.5+<br>Opera 12+<br>Safari 4+<br>Internet Explorer 8+<br>(see the complete list of supported browsers at <a href="http://caniuse.com/#search=cors" target="_blank">http://caniuse.com/#search=cors</a>)<br>看完整兼容性数据at<a href="http://caniuse.com/#search=cors" target="_blank">http://caniuse.com/#search=cors</a><br>chrome,firefox,opera和safari都是使用XMLHttpRequest2对象。IE使用类似的XDomainRequest对象。</p>
-<p>To get started, you will first need to create the appropriate request object. Nicholas Zakas wrote a simple helper method to help sort out the browser differences:<br>To get started,你首先需要创建正确的请求对象。Nicholas Zakas写了一个简单的<a href="http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/" target="_blank">helper method</a>去解决浏览器的兼容问题。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">createCORSRequest</span><span class="params">(method, url)</span> {</span>
-    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
-    <span class="keyword">if</span>(<span class="string">'withCredentails'</span> <span class="keyword">in</span> xhr) {
-        <span class="comment">// 检测XMLHttpRequest对象是否有withCredentails属性</span>
-        <span class="comment">// withCredentails只存在于XMLHttpRequest2对象</span>
-        xhr.open(method, url, <span class="literal">true</span>);
-    }<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> XDomainRequest != <span class="string">'undefined'</span>) {
-        <span class="comment">// Otherwise, check if XDomainRequest.</span>
-        <span class="comment">// XDomainRequest only exists in IE, and is IE's way of making CORS requests.</span>
-        <span class="comment">// 否则检测XDomainRequest</span>
-        <span class="comment">// XDomainRequest只存在于IE，它是IE创建CORS请求的方式。</span>
-        xhr = <span class="keyword">new</span> XDomainRequest();
-        xhr.open(method, url);
-    }<span class="keyword">else</span> {
-        xhr = <span class="literal">null</span>
-    };
-    <span class="keyword">return</span> xhr;
-};
-
-<span class="keyword">var</span> xhr = createCORSRequest(<span class="string">'GET'</span>, url);
-<span class="keyword">if</span>(xhr) {
-    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">'CORS not supported in your browser'</span>);
-};
-</pre></td></tr></table></figure>
+<p>Chrome 3+<br>Firefox 3.5+<br>Opera 12+<br>Safari 4+<br>Internet Explorer 8+<br>(see the complete list of supported browsers at <a href="http://caniuse.com/#search=cors" target="_blank" rel="external">http://caniuse.com/#search=cors</a>)<br>看完整兼容性数据at<a href="http://caniuse.com/#search=cors" target="_blank" rel="external">http://caniuse.com/#search=cors</a><br>chrome,firefox,opera和safari都是使用XMLHttpRequest2对象。IE使用类似的XDomainRequest对象。</p>
+<p>To get started, you will first need to create the appropriate request object. Nicholas Zakas wrote a simple helper method to help sort out the browser differences:<br>To get started,你首先需要创建正确的请求对象。Nicholas Zakas写了一个简单的<a href="http://www.nczonline.net/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/" target="_blank" rel="external">helper method</a>去解决浏览器的兼容问题。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">function createCORSRequest(<span class="keyword">method</span>, url) {</div><div class="line">    <span class="keyword">var</span> xhr = new <span class="type">XMLHttpRequest</span>();</div><div class="line">    <span class="keyword">if</span>('withCredentails' <span class="keyword">in</span> xhr) {</div><div class="line">        // 检测<span class="type">XMLHttpRequest</span>对象是否有withCredentails属性</div><div class="line">        // withCredentails只存在于<span class="type">XMLHttpRequest2</span>对象</div><div class="line">        xhr.open(<span class="keyword">method</span>, url, <span class="literal">true</span>);</div><div class="line">    }<span class="keyword">else</span> <span class="keyword">if</span>(typeof <span class="type">XDomainRequest</span> != 'undefined') {</div><div class="line">        // <span class="type">Otherwise</span>, check <span class="keyword">if</span> <span class="type">XDomainRequest</span>.</div><div class="line">        // <span class="type">XDomainRequest</span> only exists <span class="keyword">in</span> <span class="type">IE</span>, <span class="keyword">and</span> <span class="keyword">is</span> <span class="type">IE</span>'s way <span class="keyword">of</span> making <span class="type">CORS</span> requests.</div><div class="line">        // 否则检测<span class="type">XDomainRequest</span></div><div class="line">        // <span class="type">XDomainRequest</span>只存在于<span class="type">IE</span>，它是<span class="type">IE</span>创建<span class="type">CORS</span>请求的方式。</div><div class="line">        xhr = new <span class="type">XDomainRequest</span>();</div><div class="line">        xhr.open(<span class="keyword">method</span>, url);</div><div class="line">    }<span class="keyword">else</span> {</div><div class="line">        xhr = null</div><div class="line">    };</div><div class="line">    <span class="keyword">return</span> xhr;</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keyword">var</span> xhr = createCORSRequest('<span class="type">GET</span>', url);</div><div class="line"><span class="keyword">if</span>(xhr) {</div><div class="line">    throw new <span class="type">Error</span>('<span class="type">CORS</span> <span class="keyword">not</span> supported <span class="keyword">in</span> your browser');</div><div class="line">};</div></pre></td></tr></table></figure>
 
 <p>Event handlers</p>
 <p>The original XMLHttpRequest object had only one event handler, onreadystatechange, which handled all responses. Although onreadystatechange is still available, XMLHttpRequest2 introduces a bunch of new event handlers. Here is a complete list:</p>
 <h3 id="事件处理函数">事件处理函数</h3>
 <p>原始的XMLHttpRequeset对象只支持一个事件处理函数-onreadystatechange,它处理所有的回应。虽然onreadystatechange依然可用，XMLHttpRequest2带来了一系列事件处理函数。以下是完整的列表<img src="http://frontend-fucker.qiniudn.com/@/hexo/cors.jpg" alt=""><br>For most cases, you will at the very least want to handle the onload and onerror events:<br>大多数情况下，你会至少使用到onload和onerror事件。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-</pre></td><td class="code"><pre>xhr.onload = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-    <span class="keyword">var</span> responseText = xhr.responseText;
-    console.log(responseText);
-    <span class="comment">// process the response.</span>
-};
-xhr.onerror = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-    console.log(<span class="string">'there war an error!'</span>);
-};
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">xhr.onload = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">    <span class="keyword">var</span> responseText = xhr.responseText;</div><div class="line">    <span class="built_in">console</span>.log(responseText);</div><div class="line">    <span class="comment">// process the response.</span></div><div class="line">};</div><div class="line">xhr.onerror = <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">'there war an error!'</span>);</div><div class="line">};</div></pre></td></tr></table></figure>
 
 <p>Browers don’t do a good job of reporting what went wrong when there is an error. For example, Firefox reports a status of 0 and an empty statusText for all errors. Browsers also report an error message to the console log, but this message cannot be accessed from JavaScript. When handling onerror, you will know that an error occurred, but not much else.</p>
 <p>withCredentials</p>
 <p>Standard CORS requests do not send or set any cookies by default. In order to include cookies as part of the request, you need to set the XMLHttpRequest’s .withCredentials property to true:</p>
 <h3 id="withCredentials">withCredentials</h3>
 <p>标准的CORS请求默认不会发送或者设置任何cookies。为了将cookies作为请求的一部分，你需要设置XMLHttpRequest的withCredentials属性为true。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>xhr.withCredentials = <span class="literal">true</span>;
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xhr.<span class="variable">withCredentials =</span> <span class="constant">true</span>;</div></pre></td></tr></table></figure>
 
 <p>In order for this to work, the server must also enable credentials by setting the Access-Control-Allow-Credentials response header to “true”. See the server section for details.<br>为了这可以运作起来，服务端必须启动credentials,将Access-Control-Allow-Credentials答应头设为true即可。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>Access<span class="attribute">-Control</span><span class="attribute">-Allow</span><span class="attribute">-Credentials</span> <span class="subst">=</span> <span class="literal">true</span>;
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="constant">Access-Control-Allow-Credentials</span> = <span class="literal">true</span>;</div></pre></td></tr></table></figure>
 
 <p>The .withCredentials property will include any cookies from the remote domain in the request, and it will also set any cookies from the remote domain. Note that these cookies still honor same-origin policies, so your JavaScript code can’t access the cookies from document.cookie or the response headers. They can only be controlled by the remote domain.</p>
 <h2 id="Making_the_request">Making the request</h2>
@@ -169,176 +109,20 @@ xhr.onerror = <span class="function"><span class="keyword">function</span><span 
 <p>And thats it! Assuming the server is properly configured to respond to CORS requests, your onload handler will fire with the response, just like the standard same-domain XHR you are so familiar with.</p>
 <h2 id="发送请求">发送请求</h2>
 <p>现在你的CORS请求已经配置好了，你已经准备好去发送请求了。只需要调用<code>send()</code>方法：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-</pre></td><td class="code"><pre>xhr.<span class="keyword">send</span>();
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">xhr.<span class="keyword">send</span>();</div></pre></td></tr></table></figure>
 
 <p>就这么简单！假设你的服务器已经配置好去应答CORS请求了，你的onload事件将会触发，且伴随着response，就想你平时处理同域请求一样。</p>
 <h2 id="End-to-End_Example">End-to-End Example</h2>
 <p>Here is a full working sample of a CORS request. Run the sample and watch the network requests in the browser’s debugger to see the actual request being made.</p>
 <h2 id="完整例子">完整例子</h2>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-</pre></td><td class="code"><pre><span class="function"><span class="keyword">function</span> <span class="title">createCORSRequest</span><span class="params">(method, url)</span> {</span>
-    <span class="keyword">var</span> xhr = <span class="keyword">new</span> XMLHttpRequest();
-    <span class="keyword">if</span>(<span class="string">'withCredentials'</span> <span class="keyword">in</span> xhr) {
-        xhr.open(method, url, <span class="literal">true</span>);
-    }<span class="keyword">else</span> <span class="keyword">if</span>(<span class="keyword">typeof</span> XDomainRequest != <span class="string">'undefinded'</span>) {
-        xhr = <span class="keyword">new</span> XDomainRequest();
-        xhr.open(method, url);
-    }<span class="keyword">else</span> {
-        xhr = <span class="literal">null</span>;
-    };
-    <span class="keyword">return</span> xhr;
-};
-
-<span class="comment">// Helper method to parse the title tag from the response.</span>
-<span class="function"><span class="keyword">function</span> <span class="title">getTitle</span><span class="params">(text)</span> {</span>
-  <span class="keyword">return</span> text.match(<span class="string">'&lt;title&gt;(.*)?&lt;/title&gt;'</span>)[<span class="number">1</span>];
-};
-
-<span class="function"><span class="keyword">function</span> <span class="title">makeCorsRequest</span><span class="params">()</span> {</span>
-    <span class="keyword">var</span> url = <span class="string">'http://updates.html5rocks.com'</span>;
-    <span class="keyword">var</span> xhr = createCORSRequest(<span class="string">'GET'</span>, url);
-    <span class="keyword">if</span>(!xhr) {
-        alert(<span class="string">'CORS not supported'</span>);
-        <span class="keyword">return</span>;
-    };
-
-    xhr.onload = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-        <span class="keyword">var</span> text = xhr.responseText;
-        <span class="keyword">var</span> title = getTitle(text);
-        alert(<span class="string">'Response from CORS request to '</span> + url + <span class="string">': '</span> + title);
-    };
-
-    xhr.onerror = <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-        alert(<span class="string">'Woops, there was an error making the request.'</span>);
-    };
-
-    xhr.send();
-};
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">function createCORSRequest(<span class="keyword">method</span>, url) {</div><div class="line">    <span class="keyword">var</span> xhr = new <span class="type">XMLHttpRequest</span>();</div><div class="line">    <span class="keyword">if</span>('withCredentials' <span class="keyword">in</span> xhr) {</div><div class="line">        xhr.open(<span class="keyword">method</span>, url, <span class="literal">true</span>);</div><div class="line">    }<span class="keyword">else</span> <span class="keyword">if</span>(typeof <span class="type">XDomainRequest</span> != 'undefinded') {</div><div class="line">        xhr = new <span class="type">XDomainRequest</span>();</div><div class="line">        xhr.open(<span class="keyword">method</span>, url);</div><div class="line">    }<span class="keyword">else</span> {</div><div class="line">        xhr = null;</div><div class="line">    };</div><div class="line">    <span class="keyword">return</span> xhr;</div><div class="line">};</div><div class="line"></div><div class="line">// <span class="type">Helper</span> <span class="keyword">method</span> to parse the title tag <span class="keyword">from</span> the response.</div><div class="line">function getTitle(text) {</div><div class="line">  <span class="keyword">return</span> text.match('&lt;title&gt;(.*)?&lt;/title&gt;')[<span class="number">1</span>];</div><div class="line">};</div><div class="line"></div><div class="line">function makeCorsRequest() {</div><div class="line">    <span class="keyword">var</span> url = 'http://updates.html5rocks.com';</div><div class="line">    <span class="keyword">var</span> xhr = createCORSRequest('<span class="type">GET</span>', url);</div><div class="line">    <span class="keyword">if</span>(!xhr) {</div><div class="line">        alert('<span class="type">CORS</span> <span class="keyword">not</span> supported');</div><div class="line">        <span class="keyword">return</span>;</div><div class="line">    };</div><div class="line"></div><div class="line">    xhr.onload = function() {</div><div class="line">        <span class="keyword">var</span> text = xhr.responseText;</div><div class="line">        <span class="keyword">var</span> title = getTitle(text);</div><div class="line">        alert('<span class="type">Response</span> <span class="keyword">from</span> <span class="type">CORS</span> request to ' + url + ': ' + title);</div><div class="line">    };</div><div class="line"></div><div class="line">    xhr.onerror = function() {</div><div class="line">        alert('<span class="type">Woops</span>, there was an error making the request.');</div><div class="line">    };</div><div class="line"></div><div class="line">    xhr.send();</div><div class="line">};</div></pre></td></tr></table></figure>
 
 <h2 id="CORS_from_JQuery">CORS from JQuery</h2>
 <p>JQuery’s $.ajax() method can be used to make both regular XHR and CORS requests. A few notes about JQuery’s implementation:</p>
-<p>JQuery’s CORS implementation doesn’t support IE’s XDomainRequest object. But there are JQuery plugins that enable this. See <a href="http://bugs.jquery.com/ticket/8283" target="_blank">http://bugs.jquery.com/ticket/8283</a> for details.<br>The $.support.cors boolean will be set to true if the browser supports CORS (This returns false in IE, see bullet above). This can be a quick way to check for CORS support.<br>Here’s sample code for making a CORS request with JQuery. The comments give more details on how certain properties interact with CORS.</p>
+<p>JQuery’s CORS implementation doesn’t support IE’s XDomainRequest object. But there are JQuery plugins that enable this. See <a href="http://bugs.jquery.com/ticket/8283" target="_blank" rel="external">http://bugs.jquery.com/ticket/8283</a> for details.<br>The $.support.cors boolean will be set to true if the browser supports CORS (This returns false in IE, see bullet above). This can be a quick way to check for CORS support.<br>Here’s sample code for making a CORS request with JQuery. The comments give more details on how certain properties interact with CORS.</p>
 <h2 id="使用jQuery发送CORS请求">使用jQuery发送CORS请求</h2>
 <p>jQuery的$.ajax()可以发送正常的XHR请求和CORS请求。<br>下面说一下使用jquery实现需要注意的地方：<br>jquery实现的CORS不支持IE的XDomainRequest对象。但是你可以找到对应的jquery插件去实现。<br>$.support.cors可以用来检测浏览器的兼容性。<br>下面是用jquery实现CORS的一个实例。</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-</pre></td><td class="code"><pre>$.ajax({
-    <span class="comment">// The 'type' property sets the HTTP method.</span>
-    <span class="comment">// A value of 'PUT' or 'DELETE' will trigger a preflight request.</span>
-    type: <span class="string">'GET'</span>,
-
-    <span class="comment">// The URL to make the request to.</span>
-    url: <span class="string">'http://updates.html5rocks.com'</span>,
-
-    xhrFields: {
-        <span class="comment">// The 'xhrFields' property sets additional fields on the XMLHttpRequest.</span>
-        <span class="comment">// This can be used to set the 'withCredentials' property.</span>
-        <span class="comment">// Set the value to 'true' if you'd like to pass cookies to the server.</span>
-        <span class="comment">// If this is enabled, your server must respond with the header</span>
-        <span class="comment">// 'Access-Control-Allow-Credentials: true'.</span>
-        <span class="comment">// 如果你想向服务器发送cookies的话，设置withCredentials为true</span>
-        <span class="comment">// 而且你的服务器必须返回头部带有'Access-Control-Allow-Credentials:    // true'的回应</span>
-        withCredentials: <span class="literal">false</span>
-    },
-
-    header: {
-        <span class="comment">// 在这里设置自定义的头部</span>
-        <span class="comment">// Set any custom headers here.</span>
-        <span class="comment">// If you set any non-simple headers, your server must include these</span>
-        <span class="comment">// headers in the 'Access-Control-Allow-Headers' response header.</span>
-    },
-
-    success: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-        <span class="comment">// Here's where you handle a successful response.</span>
-        <span class="comment">// 这里处理服务器成功返回数据的情况</span>
-    },
-
-    error: <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-        <span class="comment">// Here's where you handle an error response.</span>
-        <span class="comment">// Note that if the error was due to a CORS issue,</span>
-        <span class="comment">// this function will still fire, but there won't be any additional</span>
-        <span class="comment">// information about the error.</span>
-        <span class="comment">// 这里处理错误的回应</span>
-    }
-});
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">$.ajax({</div><div class="line">    <span class="comment">// The 'type' property sets the HTTP method.</span></div><div class="line">    <span class="comment">// A value of 'PUT' or 'DELETE' will trigger a preflight request.</span></div><div class="line">    type: <span class="string">'GET'</span>,</div><div class="line"></div><div class="line">    <span class="comment">// The URL to make the request to.</span></div><div class="line">    url: <span class="string">'http://updates.html5rocks.com'</span>,</div><div class="line"></div><div class="line">    xhrFields: {</div><div class="line">        <span class="comment">// The 'xhrFields' property sets additional fields on the XMLHttpRequest.</span></div><div class="line">        <span class="comment">// This can be used to set the 'withCredentials' property.</span></div><div class="line">        <span class="comment">// Set the value to 'true' if you'd like to pass cookies to the server.</span></div><div class="line">        <span class="comment">// If this is enabled, your server must respond with the header</span></div><div class="line">        <span class="comment">// 'Access-Control-Allow-Credentials: true'.</span></div><div class="line">        <span class="comment">// 如果你想向服务器发送cookies的话，设置withCredentials为true</span></div><div class="line">        <span class="comment">// 而且你的服务器必须返回头部带有'Access-Control-Allow-Credentials:    // true'的回应</span></div><div class="line">        withCredentials: <span class="literal">false</span></div><div class="line">    },</div><div class="line"></div><div class="line">    header: {</div><div class="line">        <span class="comment">// 在这里设置自定义的头部</span></div><div class="line">        <span class="comment">// Set any custom headers here.</span></div><div class="line">        <span class="comment">// If you set any non-simple headers, your server must include these</span></div><div class="line">        <span class="comment">// headers in the 'Access-Control-Allow-Headers' response header.</span></div><div class="line">    },</div><div class="line"></div><div class="line">    success: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">        <span class="comment">// Here's where you handle a successful response.</span></div><div class="line">        <span class="comment">// 这里处理服务器成功返回数据的情况</span></div><div class="line">    },</div><div class="line"></div><div class="line">    error: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">        <span class="comment">// Here's where you handle an error response.</span></div><div class="line">        <span class="comment">// Note that if the error was due to a CORS issue,</span></div><div class="line">        <span class="comment">// this function will still fire, but there won't be any additional</span></div><div class="line">        <span class="comment">// information about the error.</span></div><div class="line">        <span class="comment">// 这里处理错误的回应</span></div><div class="line">    }</div><div class="line">});</div></pre></td></tr></table></figure>
 
 
       
@@ -354,7 +138,7 @@ xhr.onerror = <span class="function"><span class="keyword">function</span><span 
         
   
   <div class="tags">
-    <a href="/tags/跨域 CORS/">跨域 CORS</a>
+    <a href="/tags/跨域-CORS/">跨域 CORS</a>
   </div>
 
         
@@ -415,7 +199,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Service Worker/">Service Worker</a><small>1</small></li>
+    <li><a href="/tags/Service-Worker/">Service Worker</a><small>1</small></li>
   
     <li><a href="/tags/array/">array</a><small>1</small></li>
   
@@ -439,7 +223,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   
     <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
   
-    <li><a href="/tags/跨域 CORS/">跨域 CORS</a><small>1</small></li>
+    <li><a href="/tags/跨域-CORS/">跨域 CORS</a><small>1</small></li>
   
   </ul>
 </div>

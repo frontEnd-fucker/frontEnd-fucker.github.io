@@ -65,148 +65,10 @@
 <h2 id="第一部分：使用实例">第一部分：使用实例</h2>
 <p>下面是我的实际项目中修改密码页面写到的使用jquery validate的代码：(当然为了方便理解例子，是精简了一点，但大概逻辑是一致的)</p>
 <p><strong>html代码:</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-</pre></td><td class="code"><pre><span class="comment">&lt;!-- 更改密码表单 --&gt;</span>
-<span class="tag">&lt;<span class="title">form</span> <span class="attribute">id</span>=<span class="value">"form-pwd"</span> <span class="attribute">name</span>=<span class="value">"form-pwd"</span> <span class="attribute">method</span>=<span class="value">"post"</span> <span class="attribute">action</span>=<span class="value">""</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"input-con"</span>&gt;</span>
-    <span class="tag">&lt;<span class="title">label</span>&gt;</span>当前密码：<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
-	<span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"currPwd"</span> <span class="attribute">name</span>=<span class="value">"currPwd"</span> <span class="attribute">class</span>=<span class="value">"input-txt"</span> <span class="attribute">type</span>=<span class="value">"text"</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"input-con"</span>&gt;</span>
-	<span class="tag">&lt;<span class="title">label</span>&gt;</span>新密码：<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
-	<span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"newPwd1"</span> <span class="attribute">name</span>=<span class="value">"newPwd1"</span> <span class="attribute">class</span>=<span class="value">"input-txt"</span> <span class="attribute">type</span>=<span class="value">"password"</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"input-con"</span>&gt;</span>
-	<span class="tag">&lt;<span class="title">label</span>&gt;</span>确认密码：<span class="tag">&lt;/<span class="title">label</span>&gt;</span>
-	<span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"newPwd2"</span> <span class="attribute">name</span>=<span class="value">"newPwd2"</span> <span class="attribute">class</span>=<span class="value">"input-txt"</span> <span class="attribute">type</span>=<span class="value">"password"</span>&gt;</span>
-  <span class="tag">&lt;/<span class="title">p</span>&gt;</span>
-  <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span> <span class="attribute">class</span>=<span class="value">"btn-pill btn-pill-green"</span> <span class="attribute">value</span>=<span class="value">"提交"</span>&gt;</span>
-<span class="tag">&lt;/<span class="title">form</span>&gt;</span>	
-
-<span class="comment">&lt;!--引入jquery--&gt;</span>
-<span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"http://libs.baidu.com/jquery/1.10.2/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-<span class="comment">&lt;!--引入jquery validate--&gt;</span>
-<span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"js/vendor/jquery.validate.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span>
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 更改密码表单 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">form</span> <span class="attribute">id</span>=<span class="value">"form-pwd"</span> <span class="attribute">name</span>=<span class="value">"form-pwd"</span> <span class="attribute">method</span>=<span class="value">"post"</span> <span class="attribute">action</span>=<span class="value">""</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"input-con"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="title">label</span>&gt;</span>当前密码：<span class="tag">&lt;/<span class="title">label</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"currPwd"</span> <span class="attribute">name</span>=<span class="value">"currPwd"</span> <span class="attribute">class</span>=<span class="value">"input-txt"</span> <span class="attribute">type</span>=<span class="value">"text"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"input-con"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="title">label</span>&gt;</span>新密码：<span class="tag">&lt;/<span class="title">label</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"newPwd1"</span> <span class="attribute">name</span>=<span class="value">"newPwd1"</span> <span class="attribute">class</span>=<span class="value">"input-txt"</span> <span class="attribute">type</span>=<span class="value">"password"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">p</span> <span class="attribute">class</span>=<span class="value">"input-con"</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="title">label</span>&gt;</span>确认密码：<span class="tag">&lt;/<span class="title">label</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="title">input</span> <span class="attribute">id</span>=<span class="value">"newPwd2"</span> <span class="attribute">name</span>=<span class="value">"newPwd2"</span> <span class="attribute">class</span>=<span class="value">"input-txt"</span> <span class="attribute">type</span>=<span class="value">"password"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="title">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="title">input</span> <span class="attribute">type</span>=<span class="value">"submit"</span> <span class="attribute">class</span>=<span class="value">"btn-pill btn-pill-green"</span> <span class="attribute">value</span>=<span class="value">"提交"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="title">form</span>&gt;</span>	</div><div class="line"></div><div class="line"><span class="comment">&lt;!--引入jquery--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"http://libs.baidu.com/jquery/1.10.2/jquery.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--引入jquery validate--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="title">script</span> <span class="attribute">src</span>=<span class="value">"js/vendor/jquery.validate.min.js"</span>&gt;</span><span class="javascript"></span><span class="tag">&lt;/<span class="title">script</span>&gt;</span></div></pre></td></tr></table></figure>
 
 <p><strong>js代码:</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-</pre></td><td class="code"><pre>$(<span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  $(<span class="string">'#form-pwd'</span>).validate({
-  	errorElement: <span class="string">'em'</span>,
-  	rules: {
-	  currPwd: {
-        <span class="built_in">require</span>: <span class="literal">true</span>,
-        remote: {
-          url: <span class="string">'user!checkUserByPwd'</span>,
-          type: <span class="string">'post'</span>,
-          dataFilter: <span class="function"><span class="keyword">function</span><span class="params">(data)</span> {</span>
-          	<span class="keyword">if</span>(data==<span class="number">1</span>) {
-          	  <span class="keyword">return</span> <span class="literal">true</span>;
-          	}<span class="keyword">else</span> <span class="keyword">if</span>(data==-<span class="number">1</span>) {
-          	  <span class="keyword">return</span> <span class="literal">false</span>;
-          	}
-          }
-        }
-	  },
-	  newPwd1: {
-	    <span class="built_in">require</span>: <span class="literal">true</span>,
-	    rangelength: [<span class="number">6</span>, <span class="number">20</span>]
-	  },
-	  newPwd2: {
-	    <span class="built_in">require</span>: <span class="literal">true</span>,
-	    equalTo: <span class="string">'#newPwd1'</span>
-	  }
-	},
-    messages: {
-	  currPwd: {
-	    required: <span class="string">'请输入当前密码'</span>,
-	    remote: <span class="string">'您输入的旧密码错误'</span>
-	  },
-	  newPwd1: {
-	    required: <span class="string">'请输入新密码'</span>,
-	    rangelength: <span class="string">'密码长度必须在6-20位'</span>
-	  },
-	  newPwd2: {
-	    required: <span class="string">'请再次输入新密码'</span>,
-	    equalTo: <span class="string">'两次输入的密码必须相同'</span>
-	  }
-    },
-	submitHandler: <span class="function"><span class="keyword">function</span><span class="params">(form)</span> {</span>
-	  <span class="comment">// 这里写全部验证都通过后的代码</span>
-	  alert(<span class="string">'修改成功'</span>);
-	  form.submit();
-	}
-  });	
-});
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div></pre></td><td class="code"><pre><div class="line">$(<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">  $(<span class="string">'#form-pwd'</span>).validate({</div><div class="line">  	errorElement: <span class="string">'em'</span>,</div><div class="line">  	rules: {</div><div class="line">	  currPwd: {</div><div class="line">        <span class="built_in">require</span>: <span class="literal">true</span>,</div><div class="line">        remote: {</div><div class="line">          url: <span class="string">'user!checkUserByPwd'</span>,</div><div class="line">          type: <span class="string">'post'</span>,</div><div class="line">          dataFilter: <span class="function"><span class="keyword">function</span><span class="params">(data)</span> </span>{</div><div class="line">          	<span class="keyword">if</span>(data==<span class="number">1</span>) {</div><div class="line">          	  <span class="keyword">return</span> <span class="literal">true</span>;</div><div class="line">          	}<span class="keyword">else</span> <span class="keyword">if</span>(data==-<span class="number">1</span>) {</div><div class="line">          	  <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">          	}</div><div class="line">          }</div><div class="line">        }</div><div class="line">	  },</div><div class="line">	  newPwd1: {</div><div class="line">	    <span class="built_in">require</span>: <span class="literal">true</span>,</div><div class="line">	    rangelength: [<span class="number">6</span>, <span class="number">20</span>]</div><div class="line">	  },</div><div class="line">	  newPwd2: {</div><div class="line">	    <span class="built_in">require</span>: <span class="literal">true</span>,</div><div class="line">	    equalTo: <span class="string">'#newPwd1'</span></div><div class="line">	  }</div><div class="line">	},</div><div class="line">    messages: {</div><div class="line">	  currPwd: {</div><div class="line">	    required: <span class="string">'请输入当前密码'</span>,</div><div class="line">	    remote: <span class="string">'您输入的旧密码错误'</span></div><div class="line">	  },</div><div class="line">	  newPwd1: {</div><div class="line">	    required: <span class="string">'请输入新密码'</span>,</div><div class="line">	    rangelength: <span class="string">'密码长度必须在6-20位'</span></div><div class="line">	  },</div><div class="line">	  newPwd2: {</div><div class="line">	    required: <span class="string">'请再次输入新密码'</span>,</div><div class="line">	    equalTo: <span class="string">'两次输入的密码必须相同'</span></div><div class="line">	  }</div><div class="line">    },</div><div class="line">	submitHandler: <span class="function"><span class="keyword">function</span><span class="params">(form)</span> </span>{</div><div class="line">	  <span class="comment">// 这里写全部验证都通过后的代码</span></div><div class="line">	  alert(<span class="string">'修改成功'</span>);</div><div class="line">	  form.submit();</div><div class="line">	}</div><div class="line">  });	</div><div class="line">});</div></pre></td></tr></table></figure>
 
 <p>就这样就完成了修改密码的表单验证开发了。<br>如果一开始项目就用上jquery validate的话，以后项目中需要用到表单验证的地方（如登录，注册）也变得非常简单。</p>
 <h2 id="第二部分：实例详解">第二部分：实例详解</h2>
@@ -214,118 +76,30 @@
 <h3 id="2-1_$(selector)-validate();">2.1 $(selector).validate();</h3>
 <p>jquery validate的<code>.validate()</code>方法是整个表单的入口，当你提交表单时就会进入改方法。其中<code>selector</code>为你要验证的表单。上面例子中就为<code>#form-pwd</code></p>
 <h3 id="2-2_errorElement">2.2 errorElement</h3>
-<p><code>errorElement</code>参数为包囊验证错误提示的html标签，默认为label。程序还会自动在该标签上加上<code>.error</code>class，方便我们定义错误提示的样式。我习惯将该参数设为<code>em</code>,以避免和我自己写的label发生冲突。<br><a href="http://jqueryvalidation.org/validate#errorelement" target="_blank">errorElement官方详解</a></p>
+<p><code>errorElement</code>参数为包囊验证错误提示的html标签，默认为label。程序还会自动在该标签上加上<code>.error</code>class，方便我们定义错误提示的样式。我习惯将该参数设为<code>em</code>,以避免和我自己写的label发生冲突。<br><a href="http://jqueryvalidation.org/validate#errorelement" target="_blank" rel="external">errorElement官方详解</a></p>
 <h3 id="2-3_rules">2.3 rules</h3>
 <p><code>rules</code>参数为我们对各个控件所提供的验证规则。<br>例如上例中要将<code>name</code>为<code>currPwd</code>的控件设为必填。实现代码如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="tag">rules</span>: <span class="rules">{
-  <span class="rule"><span class="attribute">currPwd</span>:<span class="value"> {
-    required: true
-  </span></span></span>}
-}
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">rules</span>: <span class="rules">{</span></div><div class="line">  <span class="rule"><span class="attribute">currPwd</span>:<span class="value"> {</span></span></div><div class="line">    required: true</div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>jqurey validate提供了很多内置的验证方法，具体请这里看官方的文档：<br><a href="http://jqueryvalidation.org/documentation/#list-of-built-in-validation-methods" target="_blank">http://jqueryvalidation.org/documentation/#list-of-built-in-validation-methods</a></p>
+<p>jqurey validate提供了很多内置的验证方法，具体请这里看官方的文档：<br><a href="http://jqueryvalidation.org/documentation/#list-of-built-in-validation-methods" target="_blank" rel="external">http://jqueryvalidation.org/documentation/#list-of-built-in-validation-methods</a></p>
 <h3 id="2-4_messages">2.4 messages</h3>
 <p><code>messages</code>参数用来控制错误提示的语句。<br>如上例中当<code>currPwd</code>为空时就会出现错误提示。提示为‘请输入当前密码’。实现代码如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-</pre></td><td class="code"><pre><span class="tag">messages</span>: <span class="rules">{
-  <span class="rule"><span class="attribute">currPwd</span>:<span class="value"> {
-    required: <span class="string">'请输入当前密码'</span>
-  </span></span></span>}
-}
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">messages</span>: <span class="rules">{</span></div><div class="line">  <span class="rule"><span class="attribute">currPwd</span>:<span class="value"> {</span></span></div><div class="line">    required: <span class="string">'请输入当前密码'</span></div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><a href="http://jqueryvalidation.org/validate#messages" target="_blank">messages官方详解</a></p>
+<p><a href="http://jqueryvalidation.org/validate#messages" target="_blank" rel="external">messages官方详解</a></p>
 <h3 id="2-5_submitHandler">2.5 submitHandler</h3>
 <p><code>submitHandler</code>用来控制当表单都通过了验证时所要执行的代码。<br>该参数为一个<code>function(form){}</code>函数。其中形参<code>form</code>指代该表单的DOM元素。<br><strong>注意：使用了jquery validate插件后表单的默认提交动作会取消，必须在<code>submitHandler</code>中手动将表单提交。</strong><br>如上例中当全部表单都通过验证后，会alert密码修改成功。然后，<code>form.submit()</code>就会将表单提交。实现代码如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-</pre></td><td class="code"><pre>submitHandler: <span class="function"><span class="keyword">function</span><span class="params">(form)</span> {</span>
-  alert(<span class="string">'密码修改成功'</span>);
-  form.submit();
-}
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">submitHandler: <span class="function"><span class="keyword">function</span><span class="params">(form)</span> </span>{</div><div class="line">  alert(<span class="string">'密码修改成功'</span>);</div><div class="line">  form.submit();</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p><a href="http://jqueryvalidation.org/validate#submithandler" target="_blank">submitHandler官方详解</a></p>
+<p><a href="http://jqueryvalidation.org/validate#submithandler" target="_blank" rel="external">submitHandler官方详解</a></p>
 <h3 id="2-6_remote">2.6 remote</h3>
 <p><code>remote</code>用来将数据发到我们自己的后台检验。<br>日常表单验证中总少不了异步将数据传到服务器去检验。如检查用户名是否重复，检查验证码是否正确等…<br>以前我们的异步验证可能会这样写：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-</pre></td><td class="code"><pre><span class="keyword">var</span> currpwd = $(<span class="string">'input[name=currpwd]'</span>).val();
-$.post(<span class="string">'user!checkUserByPwd'</span>, <span class="string">'currPwd'</span>: currpwd, <span class="function"><span class="keyword">function</span><span class="params">(data)</span> {</span>
-  <span class="comment">// data=1为密码正确</span>
-  <span class="comment">// data=-1为密码错误</span>
-  <span class="keyword">if</span>(data==<span class="number">1</span>) {
-  	<span class="comment">// do something when the pwd is correct</span>
-  }<span class="keyword">else</span> <span class="keyword">if</span>(data==-<span class="number">1</span>) {
-  	<span class="comment">// pop a tips for incorrect pwd like '您输入的旧密码错误'</span>
-  }
-});
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> currpwd = $(<span class="string">'input[name=currpwd]'</span>).val();</div><div class="line">$.post(<span class="string">'user!checkUserByPwd'</span>, <span class="string">'currPwd'</span>: currpwd, <span class="function"><span class="keyword">function</span><span class="params">(data)</span> </span>{</div><div class="line">  <span class="comment">// data=1为密码正确</span></div><div class="line">  <span class="comment">// data=-1为密码错误</span></div><div class="line">  <span class="keyword">if</span>(data==<span class="number">1</span>) {</div><div class="line">  	<span class="comment">// do something when the pwd is correct</span></div><div class="line">  }<span class="keyword">else</span> <span class="keyword">if</span>(data==-<span class="number">1</span>) {</div><div class="line">  	<span class="comment">// pop a tips for incorrect pwd like '您输入的旧密码错误'</span></div><div class="line">  }</div><div class="line">});</div></pre></td></tr></table></figure>
 
 <p>等价的，在jquery validta中我们只需这样写</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre>1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-</pre></td><td class="code"><pre>rules: {
-  currpwd: {
-  	remote: {
-  	  url: <span class="string">'user!checkUserByPwd'</span>,
-  	  <span class="built_in">type</span>: <span class="string">'post'</span>,
-  	  dataFilter: <span class="function"><span class="keyword">function</span><span class="params">(data)</span></span> {
-		<span class="keyword">if</span>(data==-<span class="number">1</span>) {
-		  <span class="keyword">return</span> <span class="keyword">false</span>; // 当<span class="keyword">return</span> <span class="keyword">false</span>时表示验证错误，弹出提示语
-		}<span class="keyword">else</span> <span class="keyword">if</span>(data==<span class="number">1</span>) {
-		  <span class="keyword">return</span> <span class="keyword">true</span>;
-		}
-  	  }
-  	}
-  }
-},
-messages: {
-  currpwd: {
-  	remote: <span class="string">'您输入的旧密码错误'</span>
-  }
-}
-</pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">rules: {</div><div class="line">  currpwd: {</div><div class="line">  	remote: {</div><div class="line">  	  url: <span class="string">'user!checkUserByPwd'</span>,</div><div class="line">  	  <span class="built_in">type</span>: <span class="string">'post'</span>,</div><div class="line">  	  dataFilter: <span class="function"><span class="keyword">function</span><span class="params">(data)</span></span> {</div><div class="line">		<span class="keyword">if</span>(data==-<span class="number">1</span>) {</div><div class="line">		  <span class="keyword">return</span> <span class="keyword">false</span>; // 当<span class="keyword">return</span> <span class="keyword">false</span>时表示验证错误，弹出提示语</div><div class="line">		}<span class="keyword">else</span> <span class="keyword">if</span>(data==<span class="number">1</span>) {</div><div class="line">		  <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">		}</div><div class="line">  	  }</div><div class="line">  	}</div><div class="line">  }</div><div class="line">},</div><div class="line">messages: {</div><div class="line">  currpwd: {</div><div class="line">  	remote: <span class="string">'您输入的旧密码错误'</span></div><div class="line">  }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<p>可以点击以下链接进入<code>remote</code>属性的官方解析：<a href="http://jqueryvalidation.org/remote-method" target="_blank">http://jqueryvalidation.org/remote-method</a></p>
+<p>可以点击以下链接进入<code>remote</code>属性的官方解析：<a href="http://jqueryvalidation.org/remote-method" target="_blank" rel="external">http://jqueryvalidation.org/remote-method</a></p>
 <p>基本上了解了上面几个参数后，在实际开发中就可以用jquery validate来做表单验证了。如果要成为jqurey validate的专家，请继续阅读第三部分。</p>
 <h2 id="第三部分：深入了解，成为使用jquery_v_alidate的高手">第三部分：深入了解，成为使用jquery v alidate的高手</h2>
 <p>这个部分主要详解，就query validate的几个常用的属性，了解了这些属性后，你就可以游润有余地使用就jquery validate</p>
@@ -404,7 +178,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   <h3 class="title">标签</h3>
   <ul class="entry">
   
-    <li><a href="/tags/Service Worker/">Service Worker</a><small>1</small></li>
+    <li><a href="/tags/Service-Worker/">Service Worker</a><small>1</small></li>
   
     <li><a href="/tags/array/">array</a><small>1</small></li>
   
@@ -428,7 +202,7 @@ var duoshuoQuery = {short_name:"frontend-fucker"};
   
     <li><a href="/tags/自定义事件，事件命名空间/">自定义事件，事件命名空间</a><small>1</small></li>
   
-    <li><a href="/tags/跨域 CORS/">跨域 CORS</a><small>1</small></li>
+    <li><a href="/tags/跨域-CORS/">跨域 CORS</a><small>1</small></li>
   
   </ul>
 </div>

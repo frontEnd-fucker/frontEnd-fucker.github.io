@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>js常用片段 | best FE</title>
+  <title>Service Worker | best FE</title>
   <meta name="author" content="yu">
   
   
@@ -42,7 +42,7 @@
 <div class="clearfix"></div></header>
   <div id="content" class="inner">
     <div id="main-col" class="alignleft"><div id="wrapper">
-<h2 class="archive-title tag">js常用片段</h2>
+<h2 class="archive-title tag">Service Worker</h2>
 
 
   
@@ -52,27 +52,39 @@
     <header>
       
         <div class="icon"></div>
-        <time datetime="2014-09-01T08:34:44.000Z"><a href="/2014/09/01/如何判断当前浏览器是否支持transition？/">Sep 1 2014</a></time>
+        <time datetime="2014-12-08T09:48:18.000Z"><a href="/2014/12/08/初步认识Service-Worker/">Dec 8 2014</a></time>
       
       
   
-    <h1 class="title"><a href="/2014/09/01/如何判断当前浏览器是否支持transition？/">如何判断当前浏览器是否支持transition？</a></h1>
+    <h1 class="title"><a href="/2014/12/08/初步认识Service-Worker/">初步认识Service Worker</a></h1>
   
 
     </header>
     <div class="entry">
       
-        <h2 id="应用场景">应用场景</h2>
-<p>有时候我们需要检查当前浏览器是否支持transition属性，然后再判断是用css3来实现动画效果还是用jquery animate来实现。这样我们就能在支持transition属性的浏览器中用css来实现动画效果，让页面性能更高。</p>
+        <p>Rich offline experiences, periodic background syncs, push notifications— functionality that would normally require a native application—are coming to the web. Service workers provide the technical foundation that all these features will rely on.<br>丰富的线下体验，周期性的后台同步，通知推送（native app的常用功能）即将可以在web上实现了。Service Worker提供了这些功能所需的所有技术基础。</p>
+<p>What is a Service Worker?</p>
+<p>A service worker is a script that is run by your browser in the background, separate from a web page, opening the door to features which don’t need a web page or user interaction. In the future this will include push messages, background sync, and geofencing, but the first feature it will launch with is the ability to intercept and handle network requests, including programmatically managing a cache of responses.</p>
+<h2 id="什么是Service_Worker?">什么是Service Worker?</h2>
+<p>service worker是一个运行在浏览器后台的脚本，它和页面分离，它开创了通往不需要页面和UI的道路。<br>service worker包括信息推送，后台更新和地理围栏，但是它第一个会上线的功能是拦截和处理网络请求，包括管理responses。</p>
+<p>The reason this is such an exciting API is that it allows you to support offline experiences, giving developers complete control over what exactly that experience is.<br>这个API让人感到兴奋的主要原因是它允许你支持离线体验，让开发者可以完全控制这个体验。</p>
+<p>Before service worker there was one other API that would give users an offline experience on the web called App Cache. The major issue with App Cache is the number of gotcha’s that exist as well as the design working particularly well for single page web apps, but not for multi-page sites. Service workers have been designed to avoid these common pain points.<br>在service worker之前，还存在着一个API可以给用户在web上有离线体验，它就是<strong>App Cache</strong>。App Cache最大的问题是它不适合在多页面网站上使用。Service worder就是设计来避免这个问题的。</p>
+<p>Things to note about a service worker:</p>
+<ul>
+<li>It’s a JavaScript Worker, so it can’t access the DOM directly. Instead, a service worker can communicate with the pages it controls by responding to messages sent via the PostMessage interface, and those pages can manipulate the DOM if needed.</li>
+<li>Service worker is a programmable network proxy, allowing you to control how network requests from your page are handled.</li>
+<li>It will be terminated when not in use, and restarted when it’s next needed, so you cannot rely on global state within a service worker’s <code>onfetch</code> and <code>onmessage</code> handlers. If there is information that you need to persist and reuse across restarts, service workers do have access to the IndexedDB API.</li>
+<li>Service workers make extensive use of promises, so if you’re new to promises, then you should stop reading this and check out Jake Archibald’s article.<br>service worker值得注意的一些事情：</li>
+<li>它是一个javascript工作线程，所以它不能直接操作DOM。但service worker可以和它控制的页面通信，这些页面可以操作DOM。</li>
+<li>Service worker是一个可编程的网络代理，它允许你去控制网络怎么从你的页面请求。</li>
+<li>它会在没有在使用时终止，而且会在需要时重启，所以你不能依赖service worder的<code>onfetch</code>和<code>onmessage</code>事件处理函数。如果你有信息需要在重启后保存和重用，service worder倒是可以访问IndexedDB API.</li>
+<li>Service worders大量使用<code>promises</code>,所以如果你对promises不熟悉，你不用继续读下去了。请先阅读<a href="http://www.html5rocks.com/en/tutorials/es6/promises/" target="_blank" rel="external">Jake Archibald’s article</a></li>
+</ul>
 
       
     </div>
     <footer>
       
-        
-          <div class="alignleft">
-            <a href="/2014/09/01/如何判断当前浏览器是否支持transition？/#more" class="more-link">阅读全文</a>
-          </div>
         
         
       
